@@ -143,7 +143,8 @@ export default function CursorTrail({ icons = DEFAULT_ICONS }) {
       const x = e.clientX;
       const y = e.clientY;
       dot.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
-      bubble.style.transform = `translate(${x + 14}px, ${y + 18}px)`;
+      // Pins the bubble's square bottom-left "tail" corner to the pointer.
+      bubble.style.transform = `translate(${x + 4}px, ${y - 4}px) translateY(-100%)`;
 
       if (lastSpawn.x === null) {
         spawn(x, y);

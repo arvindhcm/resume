@@ -42,11 +42,16 @@ import githubLogo from "./assets/tools/github.svg";
 const META_ROWS = [
   {
     icon: Timer,
-    value: "7+ yrs",
-    label: "Experience",
-    tag: "Design & Dev",
+    value: "7+ yrs Experience",
+    label: "Design & Dev",
+    // tag: "Design & Dev",
   },
-  { icon: MapPin, value: "Chennai", label: "Location", tag: "India" },
+  {
+    icon: MapPin,
+    value: "Chennai,India",
+    label: "Location",
+    // tag: "India"
+  },
 ];
 
 // EDIT: swap/add tools shown in the "Tools" card
@@ -352,7 +357,7 @@ function Home() {
             {META_ROWS.map(({ icon: Icon, value, label, tag }) => (
               <div
                 key={label}
-                className="flex items-center gap-2 not-first:mt-2.5 not-first:border-t not-first:border-border-strong not-first:pt-2.5"
+                className="flex items-center gap-2 not-first:mt-2.5  not-first:pt-2.5"
               >
                 <span className="flex size-8 shrink-0 items-center justify-center rounded-[10px]">
                   <Icon className="size-4 text-muted" />
@@ -361,9 +366,9 @@ function Home() {
                   <h3>{value}</h3>
                   <div className="text-xs text-muted">{label}</div>
                 </div>
-                <span className="ml-auto rounded-[6px] bg-bg px-2 py-0.5 text-right text-[11px] leading-tight text-ink-soft">
+                {/* <span className="ml-auto rounded-[6px] bg-bg px-2 py-0.5 text-right text-[11px] leading-tight text-ink-soft">
                   {tag}
-                </span>
+                </span> */}
               </div>
             ))}
           </BentoCard>
@@ -373,9 +378,11 @@ function Home() {
             ref={registerCard}
             className="card span-1c span-1r justify-center"
           >
-            <span className="inline-flex w-fit items-center gap-1.5 rounded-md bg-success-soft px-2 py-1 text-xs font-medium text-ink">
-              <span className="size-1.5 rounded-full bg-success"></span>
-              Open to remote work
+            <span className="inline-flex w-fit items-center gap-1.5 py-1 text-xs font-medium text-ink mb-1.5">
+              {/* <span className="size-1.5 rounded-full bg-success"></span> */}
+              <Highlighter action="highlight" color="var(--accent-soft-border)">
+                Open to remote work
+              </Highlighter>
             </span>
             <div className="mt-2 flex items-start gap-1.5">
               <MapPin className="mt-0.5 size-4 shrink-0 text-muted" />
@@ -457,7 +464,7 @@ function Home() {
             }
           >
             <div className="work-left">
-              <span className="work-tag">2025</span>
+              <span className="work-tag">2025 - 2026</span>
               <div className="work-spacer"></div>
               <div className="work-copy">
                 <h3>Monica AI — SuperOps</h3>
@@ -528,7 +535,7 @@ function Home() {
           {/* HOBBIES CARD — EDIT: what you get up to outside of design */}
           <BentoCard
             ref={registerCard}
-            className="card card--hobbies span-1c span-1r"
+            className="card card--hobbies span-1c span-1r bg-surface-alt!"
           >
             <p className="eyebrow">Off the clock</p>
             <div className="tag-grid">
