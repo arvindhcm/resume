@@ -9,7 +9,7 @@ export default function ImageLightbox({ src, alt, type, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-[1100] flex items-center justify-center bg-black/80 p-6"
+      className="pointer-events-auto fixed inset-0 z-[1100] flex items-center justify-center bg-black/80 p-6"
       role="dialog"
       aria-modal="true"
       aria-label={alt}

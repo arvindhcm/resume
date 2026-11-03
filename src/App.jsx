@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
+import { MapPin, Clock, Timer } from "lucide-react";
 import CursorTrail from "./components/CursorTrail.jsx";
 import FooterPhysics from "./components/FooterPhysics.jsx";
 import PageLoader from "./components/PageLoader.jsx";
+import ImageLightbox from "./components/ImageLightbox.jsx";
 import Cover from "./components/Cover.jsx";
 import Dock from "./components/Dock.jsx";
 import DockIcon from "./components/DockIcon.jsx";
@@ -35,6 +37,28 @@ import cssLogo from "./assets/tools/css3.svg";
 import sassLogo from "./assets/tools/sass.svg";
 import jsLogo from "./assets/tools/javascript.svg";
 import githubLogo from "./assets/tools/github.svg";
+
+// EDIT: experience / location shown in the meta card
+const META_ROWS = [
+  {
+    icon: Timer,
+    value: "7+ yrs",
+    label: "Experience",
+    tag: "Design & Dev",
+  },
+  { icon: MapPin, value: "Chennai", label: "Location", tag: "India" },
+];
+
+// EDIT: swap/add tools shown in the "Tools" card
+const TOOLS = [
+  { name: "Figma", logo: figmaLogo },
+  { name: "React", logo: reactLogo },
+  { name: "Html5", logo: htmlLogo },
+  { name: "css", logo: cssLogo },
+  { name: "sass", logo: sassLogo },
+  { name: "Claude Design", logo: claudeLogo },
+  { name: "Claude Code", logo: claudeCodeLogo },
+];
 
 // EDIT: swap/add entries to match the "Tools" card above — each drops in,
 // settles, and scatters when you hover near it in the footer.
@@ -108,6 +132,7 @@ function Home() {
   const cardRefs = useRef([]);
   cardRefs.current = [];
   const navigate = useNavigate();
+  const [isProfilePreviewOpen, setIsProfilePreviewOpen] = useState(false);
 
   const registerCard = (el) => {
     if (el) cardRefs.current.push(el);
@@ -222,11 +247,18 @@ function Home() {
             className="card card--profile span-2c span-2r"
           >
             <div className="flex items-center">
-              <img
-                src={profilePic}
-                alt="Arvindh C M"
-                className="avatar mt-5 size-16 rounded-full object-cover"
-              />
+              <button
+                type="button"
+                className="mt-5 cursor-zoom-in appearance-none rounded-full border-0 bg-transparent p-0 transition-transform duration-150 ease-in-out hover:scale-105"
+                onClick={() => setIsProfilePreviewOpen(true)}
+                aria-label="Open full preview of profile picture"
+              >
+                <img
+                  src={profilePic}
+                  alt="Arvindh C M"
+                  className="avatar size-16 rounded-full object-cover"
+                />
+              </button>
               <div className="ml-3">
                 <h1>Arvindh C M</h1>
                 <div className="role">Product Designer / UX Engineer</div>
@@ -299,42 +331,69 @@ function Home() {
             <p className="eyebrow">Tools</p>
             <h3>What I work with</h3>
             <p className="lede">Design, code, and everything in between</p>
-            <div className="tag-grid">
-              <span className="tag">Figma</span>
-              <span className="tag">React</span>
-              <span className="tag">Html5</span>
-              <span className="tag">css</span>
-              <span className="tag">sass</span>
-              <span className="tag">Linear</span>
-              <span className="tag">Claude Design</span>
-              <span className="tag">Claude Code</span>
+            <div className="tag-grid gap-1.5!">
+              {TOOLS.map((tool) => (
+                <span
+                  key={tool.name}
+                  className="tag inline-flex items-center gap-1.5 px-2.5! py-1!"
+                >
+                  <img src={tool.logo} alt="" className="size-3.5 shrink-0" />
+                  {tool.name}
+                </span>
+              ))}
             </div>
           </BentoCard>
 
           {/* META CARD — EDIT: experience, focus, location */}
           <BentoCard
             ref={registerCard}
-            className="card card--meta span-1c span-1r"
+            className="card span-1c span-1r justify-center py-4!"
           >
-            {/* <p className="eyebrow">Experience</p> */}
-            <div className="meta-row">
-              <div>
-                <h2
-                  className="font-medium
-"
-                >
-                  7+yrs
-                </h2>
-                <div className="value-sub">⏳ Exp</div>
+            {META_ROWS.map(({ icon: Icon, value, label, tag }) => (
+              <div
+                key={label}
+                className="flex items-center gap-2 not-first:mt-2.5 not-first:border-t not-first:border-border-strong not-first:pt-2.5"
+              >
+                <span className="flex size-8 shrink-0 items-center justify-center rounded-[10px]">
+                  <Icon className="size-4 text-muted" />
+                </span>
+                <div className="shrink-0">
+                  <h3>{value}</h3>
+                  <div className="text-xs text-muted">{label}</div>
+                </div>
+                <span className="ml-auto rounded-[6px] bg-bg px-2 py-0.5 text-right text-[11px] leading-tight text-ink-soft">
+                  {tag}
+                </span>
               </div>
-              <div className="label">Design &amp; development</div>
+            ))}
+          </BentoCard>
+
+          {/* AVAILABILITY CARD — EDIT: time zones you can work in */}
+          <BentoCard
+            ref={registerCard}
+            className="card span-1c span-1r justify-center"
+          >
+            <span className="inline-flex w-fit items-center gap-1.5 rounded-md bg-success-soft px-2 py-1 text-xs font-medium text-ink">
+              <span className="size-1.5 rounded-full bg-success"></span>
+              Open to remote work
+            </span>
+            <div className="mt-2 flex items-start gap-1.5">
+              <MapPin className="mt-0.5 size-4 shrink-0 text-muted" />
+              <div className="flex flex-wrap gap-1">
+                {["US", "EU", "New Zealand", "India"].map((region) => (
+                  <span
+                    key={region}
+                    className="rounded-md bg-bg px-2 py-0.5 text-xs font-medium text-ink-soft"
+                  >
+                    {region}
+                  </span>
+                ))}
+              </div>
             </div>
-            <div className="meta-row">
-              <div>
-                <h2 className="font-medium">Chennai</h2>
-                <div className="value-sub ">📍Location</div>
-              </div>
-              <div className="label">India</div>
+            <div className="my-2 h-px bg-border-strong"></div>
+            <div className="flex items-center gap-1.5 text-xs text-muted">
+              <Clock className="size-4 shrink-0" />
+              Happy to overlap with your timezone.
             </div>
           </BentoCard>
 
@@ -535,6 +594,14 @@ function Home() {
           <span>© {year} · Built by hand</span>
         </div> */}
       </footer>
+
+      {isProfilePreviewOpen && (
+        <ImageLightbox
+          src={profilePic}
+          alt="Arvindh C M"
+          onClose={() => setIsProfilePreviewOpen(false)}
+        />
+      )}
     </>
   );
 }
