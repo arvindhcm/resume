@@ -77,6 +77,27 @@ const processTiers = [
   },
 ];
 
+const glanceSteps = [
+  {
+    label: "Challenge",
+    headline: "Technicians didn't just need faster answers.",
+    detail:
+      "They needed to know when to trust an AI action outright, and when to keep a hand on the wheel.",
+  },
+  {
+    label: "Approach",
+    headline: "Split autonomy into explicit, escalating tiers.",
+    detail:
+      "Assistance, supervised execution, and full autonomy, instead of one black box.",
+  },
+  {
+    label: "Solution",
+    headline: "Monica summarizes and drafts by default.",
+    detail:
+      "It executes routine work under supervision and runs autonomous agents against policy, with every action carrying its own rationale.",
+  },
+];
+
 // EDIT: swap copy, links, and credits for your own version of this story.
 export default function CaseStudyMonica() {
   const navigate = useNavigate();
@@ -142,105 +163,136 @@ export default function CaseStudyMonica() {
 
         {/* HERO */}
         <header className="pb-7 pt-14">
-          <div className="wrap">
-            <span className="liquid-glass mb-[18px] inline-flex items-center rounded-full px-3.5 py-[7px] text-xs font-semibold uppercase tracking-[.04em] text-ink-soft">
-              Monica AI · SuperOps
-            </span>
-            <h1 className="m-0 mb-[18px] text-[34px] font-semibold leading-[1.05] tracking-[-0.02em] text-ink sm:text-[35px]">
-              Designing trust into an AI that gets to act on its own
-            </h1>
-            <p className="mb-9 max-w-[640px] text-[17px] leading-[1.6] text-ink-soft">
-              A tiered agentic experience for IT teams — from a suggestion in
-              the margin to an agent that resolves the ticket outright — built
-              so technicians could tell, at every step,{" "}
-              <em className="font-['Lora'] font-medium italic text-ink">
-                exactly how much they could trust it.
-              </em>
-            </p>
-            <div className="flex flex-wrap gap-8 border-t border-border pt-6">
-              <div className="flex flex-col gap-1">
-                <span className="text-[11.5px] font-semibold uppercase tracking-[.05em] text-muted">
-                  Role
-                </span>
-                <span className="text-[14.5px] font-semibold text-ink">
-                  Product Designer, end&#8209;to&#8209;end
-                </span>
+          <div className="wrap grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-12">
+            <div className="min-w-0">
+              <span className="liquid-glass mb-[18px] inline-flex items-center rounded-full px-3.5 py-[7px] text-xs font-semibold uppercase tracking-[.04em] text-ink-soft">
+                Monica AI · SuperOps
+              </span>
+              <h1 className="m-0 mb-[18px] text-[34px] font-semibold leading-[1.05] tracking-[-0.02em] text-ink sm:text-[35px]">
+                Designing trust into an AI that gets to act on its own
+              </h1>
+              <p className="mb-9 max-w-[640px] text-[17px] leading-[1.6] text-ink-soft">
+                A tiered agentic experience for IT teams — from a suggestion in
+                the margin to an agent that resolves the ticket outright — built
+                so technicians could tell, at every step,{" "}
+                <em className="font-['Lora'] font-medium italic text-ink">
+                  exactly how much they could trust it.
+                </em>
+              </p>
+              <div className="flex flex-wrap gap-8 border-t border-border pt-6">
+                <div className="flex flex-col gap-1">
+                  <span className="text-[11.5px] font-semibold uppercase tracking-[.05em] text-muted">
+                    Role
+                  </span>
+                  <span className="text-[14.5px] font-semibold text-ink">
+                    Product Designer, end&#8209;to&#8209;end
+                  </span>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-[11.5px] font-semibold uppercase tracking-[.05em] text-muted">
+                    Platform
+                  </span>
+                  <span className="text-[14.5px] font-semibold text-ink">
+                    SuperOps AI / Monica
+                  </span>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-[11.5px] font-semibold uppercase tracking-[.05em] text-muted">
+                    Team
+                  </span>
+                  <span className="text-[14.5px] font-semibold text-ink">
+                    1 designer · PM · AI/ML engineers
+                  </span>
+                </div>
               </div>
-              <div className="flex flex-col gap-1">
-                <span className="text-[11.5px] font-semibold uppercase tracking-[.05em] text-muted">
-                  Platform
-                </span>
-                <span className="text-[14.5px] font-semibold text-ink">
-                  SuperOps AI / Monica
-                </span>
-              </div>
-              <div className="flex flex-col gap-1">
-                <span className="text-[11.5px] font-semibold uppercase tracking-[.05em] text-muted">
-                  Team
-                </span>
-                <span className="text-[14.5px] font-semibold text-ink">
-                  1 designer · PM · AI/ML engineers
-                </span>
-              </div>
+            </div>
+            <div className="overflow-hidden rounded-lg border border-border shadow-md">
+              <img
+                src={scriptGeneration}
+                alt="Monica AI product walkthrough inside the SuperOps console"
+                loading="lazy"
+                className="block h-auto w-full"
+              />
             </div>
           </div>
         </header>
 
-        <div className="wrap">
-          <div className="mb-2 overflow-hidden rounded-lg border border-border shadow-md sm:w-3/5">
-            <img
-              src={scriptGeneration}
-              alt="Monica AI product walkthrough inside the SuperOps console"
-              loading="lazy"
-              className="block h-auto w-full"
-            />
-          </div>
-        </div>
-
         {/* AT A GLANCE */}
         <section className="px-0 pb-2 pt-10">
           <div className="wrap max-w-[1120px]">
-            <p className="eyebrow">The solution at a glance</p>
-            <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="rounded-md border border-border bg-surface p-[22px] pb-6 shadow-sm">
-                <span className="mb-2.5 block text-xs font-bold uppercase tracking-[.05em] text-accent-ink">
-                  Challenge
-                </span>
-                <p className="m-0 text-sm leading-[1.6] text-ink-soft">
-                  Technicians didn't just need faster answers — they needed to
-                  know when to trust an AI action outright and when to keep a
-                  hand on the wheel.
-                </p>
-              </div>
-              <div className="rounded-md border border-border bg-surface p-[22px] pb-6 shadow-sm">
-                <span className="mb-2.5 block text-xs font-bold uppercase tracking-[.05em] text-accent-ink">
-                  Approach
-                </span>
-                <p className="m-0 text-sm leading-[1.6] text-ink-soft">
-                  Split autonomy into three explicit, escalating tiers instead
-                  of one black box — assistance, supervised execution, and full
-                  autonomy.
-                </p>
-              </div>
-              <div className="rounded-md border border-border bg-surface p-[22px] pb-6 shadow-sm">
-                <span className="mb-2.5 block text-xs font-bold uppercase tracking-[.05em] text-accent-ink">
-                  Solution
-                </span>
-                <p className="m-0 text-sm leading-[1.6] text-ink-soft">
-                  Monica: summarizes and drafts by default, executes routine
-                  work under supervision, and runs autonomous agents against
-                  policy — every action carrying its own rationale.
-                </p>
-              </div>
-              <div className="rounded-md border border-border bg-surface p-[22px] pb-6 shadow-sm">
-                <span className="mb-2.5 block text-xs font-bold uppercase tracking-[.05em] text-accent-ink">
+            <h2 className="m-0 mb-10 text-[clamp(28px,4vw,44px)] font-semibold leading-[1.2] tracking-[-0.02em] text-ink">
+              The solution at a glance
+            </h2>
+
+            <ol className="m-0 grid list-none grid-cols-1 gap-10 p-0 md:grid-cols-3 md:gap-6">
+              {glanceSteps.map((step, index) => {
+                const isFinal = index === glanceSteps.length - 1;
+                return (
+                  <li key={step.label} className="relative">
+                    <div className="mb-5 flex items-center">
+                      <span
+                        className={`relative z-10 grid size-11 shrink-0 place-items-center rounded-[10px] border-[1.5px] border-accent-ink text-base font-semibold ${
+                          isFinal
+                            ? "bg-accent-ink text-surface"
+                            : "bg-bg text-accent-ink"
+                        }`}
+                      >
+                        {isFinal ? (
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="size-4"
+                            aria-hidden="true"
+                          >
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                        ) : (
+                          index + 1
+                        )}
+                      </span>
+                      {!isFinal && (
+                        <span
+                          aria-hidden="true"
+                          className="hidden h-0.5 flex-1 bg-border-strong md:block md:-mr-6"
+                        />
+                      )}
+                    </div>
+                    <span className="mb-3 block text-[15px] font-semibold text-accent-ink">
+                      {step.label}
+                    </span>
+                    <h3 className="m-0 mb-3 text-[19px] font-semibold leading-snug tracking-[-0.01em] text-ink">
+                      {step.headline}
+                    </h3>
+                    <p className="m-0 text-base leading-relaxed text-ink-soft/70">
+                      {step.detail}
+                    </p>
+                  </li>
+                );
+              })}
+            </ol>
+
+            <div className="mt-16 grid grid-cols-1 items-end gap-10 rounded-lg border border-border bg-surface shadow-sm px-7 py-10 text-ink md:px-16 md:py-16 lg:grid-cols-[1.4fr_1fr] lg:gap-12 lg:px-20 lg:py-20">
+              <div>
+                <span className="mb-5 block text-[15px] font-semibold text-accent-ink">
                   Impact
                 </span>
-                <p className="m-0 text-sm leading-[1.6] text-ink-soft">
-                  Up to 40% higher technician productivity and 80% fewer tickets
-                  reaching the queue at all.
+                <p className="m-0 text-[clamp(56px,8vw,112px)] font-semibold leading-[0.95] tracking-[-0.035em] text-accent-ink">
+                  +40%
+                </p>
+                <p className="m-0 mt-6 text-base text-muted">
+                  Higher technician productivity
                 </p>
               </div>
+              <ul className="m-0 list-none p-0 text-lg font-semibold">
+                <li className="border-b border-accent-ink/15 pb-6">
+                  80% fewer tickets reaching the queue
+                </li>
+                <li className="pt-6">30% lower operational costs</li>
+              </ul>
             </div>
           </div>
         </section>

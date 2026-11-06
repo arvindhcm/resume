@@ -56,6 +56,28 @@ const solutionMedia = [
   },
 ];
 
+const glanceSteps = [
+  {
+    label: "Challenge",
+    headline:
+      "SOPs lived in documents while the work happened in the ticketing tool.",
+    detail:
+      "Steps got skipped, order got mixed up, and consistency depended on who was on shift.",
+  },
+  {
+    label: "Approach",
+    headline: "Started at the atomic unit, not the canvas.",
+    detail:
+      "Mapped five action types a step could take, and every state each one needed, before drawing a single connection.",
+  },
+  {
+    label: "Solution",
+    headline: "A drag-and-drop canvas where tasks unlock the next step.",
+    detail:
+      "Scripts fire real automations, and one runbook applies to any client site from a dropdown.",
+  },
+];
+
 // EDIT: swap copy, links, and credits for your own version of this story.
 export default function CaseStudyRunbooks() {
   const navigate = useNavigate();
@@ -115,78 +137,118 @@ export default function CaseStudyRunbooks() {
 
         {/* HERO */}
         <header className="cs-hero">
-          <div className="wrap">
-            <span className="cs-tag">Unified Runbooks · SuperOps PSA</span>
-            <h1>SOPs technicians actually follow, every single time</h1>
-            <p className="cs-hero-sub">
-              Turning tribal-knowledge SOPs into guided, automated workflows —
-              from a blank canvas to a shipped feature the team called{" "}
-              <em>"a key feature of SuperOps."</em>
-            </p>
-            <div className="cs-meta-row">
-              <div>
-                <span className="cs-meta-label">Role</span>
-                <span className="cs-meta-value">
-                  Product Designer, end&#8209;to&#8209;end
-                </span>
+          <div className="wrap grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-12">
+            <div className="min-w-0">
+              <span className="cs-tag">Unified Runbooks · SuperOps PSA</span>
+              <h1>SOPs technicians actually follow, every single time</h1>
+              <p className="cs-hero-sub">
+                Turning tribal-knowledge SOPs into guided, automated workflows —
+                from a blank canvas to a shipped feature the team called{" "}
+                <em>"a key feature of SuperOps."</em>
+              </p>
+              <div className="cs-meta-row">
+                <div>
+                  <span className="cs-meta-label">Role</span>
+                  <span className="cs-meta-value">
+                    Product Designer, end&#8209;to&#8209;end
+                  </span>
+                </div>
+                <div>
+                  <span className="cs-meta-label">Platform</span>
+                  <span className="cs-meta-value">SuperOps PSA</span>
+                </div>
+                <div>
+                  <span className="cs-meta-label">Team</span>
+                  <span className="cs-meta-value">
+                    1 designer · PM · 3 engineers
+                  </span>
+                </div>
               </div>
-              <div>
-                <span className="cs-meta-label">Platform</span>
-                <span className="cs-meta-value">SuperOps PSA</span>
-              </div>
-              <div>
-                <span className="cs-meta-label">Team</span>
-                <span className="cs-meta-value">
-                  1 designer · PM · 3 engineers
-                </span>
-              </div>
+            </div>
+            <div className="cs-hero-media mb-0!">
+              <video src={runbookDemo} autoPlay loop muted playsInline />
             </div>
           </div>
         </header>
 
-        <div className="wrap">
-          <div className="cs-hero-media w-3/5">
-            <video src={runbookDemo} autoPlay loop muted playsInline />
-          </div>
-        </div>
-
         {/* AT A GLANCE */}
         <section className="cs-section cs-section--tight">
           <div className="wrap cs-section-inner cs-section-inner--wide">
-            <p className="eyebrow">The solution at a glance</p>
-            <div className="cs-tldr-grid">
-              <div className="cs-tldr-card">
-                <span className="cs-tldr-label">Challenge</span>
-                <p>
-                  SOPs lived in documents while the work happened in the
-                  ticketing tool. Steps got skipped, order got mixed up, and
-                  consistency depended on who was on shift.
+            <h2 className="mb-10! text-[clamp(28px,4vw,44px)]! font-semibold tracking-[-0.02em]! text-ink">
+              The solution at a glance
+            </h2>
+
+            <ol className="m-0 grid list-none grid-cols-1 gap-10 p-0 md:grid-cols-3 md:gap-6">
+              {glanceSteps.map((step, index) => {
+                const isFinal = index === glanceSteps.length - 1;
+                return (
+                  <li key={step.label} className="relative">
+                    <div className="mb-5 flex items-center">
+                      <span
+                        className={`relative z-10 grid size-11 shrink-0 place-items-center rounded-[10px] border-[1.5px] border-accent-ink text-base font-semibold ${
+                          isFinal
+                            ? "bg-accent-ink text-surface"
+                            : "bg-bg text-accent-ink"
+                        }`}
+                      >
+                        {isFinal ? (
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="size-4"
+                            aria-hidden="true"
+                          >
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                        ) : (
+                          index + 1
+                        )}
+                      </span>
+                      {!isFinal && (
+                        <span
+                          aria-hidden="true"
+                          className="hidden h-0.5 flex-1 bg-border-strong md:block md:-mr-6"
+                        />
+                      )}
+                    </div>
+                    <span className="mb-3 block text-[15px] font-semibold text-accent-ink">
+                      {step.label}
+                    </span>
+                    <h3 className="m-0 mb-3 text-[19px] font-semibold leading-snug tracking-[-0.01em] text-ink">
+                      {step.headline}
+                    </h3>
+                    <p className="m-0 text-base leading-relaxed text-ink-soft/70">
+                      {step.detail}
+                    </p>
+                  </li>
+                );
+              })}
+            </ol>
+
+            <div className="mt-16 grid grid-cols-1 items-end gap-10 rounded-lg border border-border bg-surface shadow-sm px-7 py-10 text-ink md:px-16 md:py-16 lg:grid-cols-[1.4fr_1fr] lg:gap-12 lg:px-20 lg:py-20">
+              <div>
+                <span className="mb-5 block text-[15px] font-semibold text-accent-ink">
+                  Impact
+                </span>
+                <p className="m-0 text-[clamp(44px,5.5vw,76px)] font-semibold leading-[0.95] tracking-[-0.035em] text-accent-ink">
+                  “Absolutely phenomenal.”
+                </p>
+                <p className="m-0 mt-6 text-base text-muted">
+                  Customers, within days of release
                 </p>
               </div>
-              <div className="cs-tldr-card">
-                <span className="cs-tldr-label">Approach</span>
-                <p>
-                  Started at the atomic unit, not the canvas — mapped five
-                  action types a step could take, and every state each one
-                  needed before drawing a single connection.
-                </p>
-              </div>
-              <div className="cs-tldr-card">
-                <span className="cs-tldr-label">Solution</span>
-                <p>
-                  A drag-and-drop canvas where tasks unlock the next step,
-                  scripts fire real automations, and one runbook applies to any
-                  client site from a dropdown.
-                </p>
-              </div>
-              <div className="cs-tldr-card">
-                <span className="cs-tldr-label">Impact</span>
-                <p>
-                  Shipped as a core PSA module — called "a key feature of
-                  SuperOps" internally and "absolutely phenomenal" by customers
-                  within days of release.
-                </p>
-              </div>
+              <ul className="m-0 list-none p-0 text-lg font-semibold">
+                <li className="border-b border-accent-ink/15 pb-6">
+                  Shipped as a core PSA module
+                </li>
+                <li className="pt-6">
+                  Called “a key feature of SuperOps” internally
+                </li>
+              </ul>
             </div>
           </div>
         </section>
