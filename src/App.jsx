@@ -5,6 +5,8 @@ import CursorTrail from "./components/CursorTrail.jsx";
 import FooterPhysics from "./components/FooterPhysics.jsx";
 import PageLoader from "./components/PageLoader.jsx";
 import ImageLightbox from "./components/ImageLightbox.jsx";
+import ResumePreview from "./components/ResumePreview.jsx";
+import resumePdf from "./assets/Arvindhcm_Designer_resume.pdf";
 import Cover from "./components/Cover.jsx";
 import Dock from "./components/Dock.jsx";
 import DockIcon from "./components/DockIcon.jsx";
@@ -138,6 +140,7 @@ function Home() {
   cardRefs.current = [];
   const navigate = useNavigate();
   const [isProfilePreviewOpen, setIsProfilePreviewOpen] = useState(false);
+  const [isResumePreviewOpen, setIsResumePreviewOpen] = useState(false);
 
   const registerCard = (el) => {
     if (el) cardRefs.current.push(el);
@@ -238,6 +241,32 @@ function Home() {
                 Contact
               </span>
             </a>
+          </DockIcon>
+          <DockIcon className="group relative">
+            <button
+              type="button"
+              onClick={() => setIsResumePreviewOpen(true)}
+              aria-label="Resume"
+              className="flex h-full w-full cursor-pointer appearance-none items-center justify-center border-0 bg-transparent p-0 text-ink-soft transition-colors hover:text-ink"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-full w-full"
+              >
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="8" y1="13" x2="16" y2="13" />
+                <line x1="8" y1="17" x2="13" y2="17" />
+              </svg>
+              <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-ink px-2 py-1 text-xs font-medium text-bg opacity-0 transition-opacity duration-150 group-hover:opacity-100">
+                Resume
+              </span>
+            </button>
           </DockIcon>
         </Dock>
       </header>
@@ -607,6 +636,14 @@ function Home() {
           src={profilePic}
           alt="Arvindh C M"
           onClose={() => setIsProfilePreviewOpen(false)}
+        />
+      )}
+
+      {isResumePreviewOpen && (
+        <ResumePreview
+          src={resumePdf}
+          fileName="Arvindhcm_Designer_resume.pdf"
+          onClose={() => setIsResumePreviewOpen(false)}
         />
       )}
     </>
