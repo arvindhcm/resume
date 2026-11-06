@@ -18,14 +18,14 @@ export default function Cover() {
           visible ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
         }`}
       >
-        {/* EDIT: your name */}
+        {/* EDIT: Arvindh C M */}
         <h1 className="m-0 text-[40px] font-bold tracking-[-0.02em] text-accent sm:text-[56px]">
-          Hi, I'm Your Name!
+          Hi, I'm Arvindh C M!
         </h1>
         {/* EDIT: your one-line intro */}
         <p className="mx-auto mt-4 max-w-[560px] text-[15px] leading-[1.6] text-muted">
-          I'm a product designer crafting calm, clear experiences for
-          complex, enterprise-scale products.
+          I'm a product designer crafting calm, clear experiences for complex,
+          enterprise-scale products.
         </p>
         <div className="mt-6 flex items-center justify-center gap-8">
           <img
