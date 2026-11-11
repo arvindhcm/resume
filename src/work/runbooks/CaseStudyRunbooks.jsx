@@ -108,7 +108,7 @@ export default function CaseStudyRunbooks() {
     >
       <div className="cs-scroll">
         {/* TOPBAR */}
-        <div className="liquid-glass cs-topbar">
+        <div className="liquid-glass cs-topbar relative!">
           <div className="wrap cs-topbar-inner">
             <button className="cs-back" onClick={() => navigate("/")}>
               <svg
