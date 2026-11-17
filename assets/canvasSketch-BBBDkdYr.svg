@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <filter id="pencil" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3"/>
+      <feColorMatrix values="0 0 0 0 0.45  0 0 0 0 0.42  0 0 0 0 0.36  0 0 0 0.08 0"/>
+    </filter>
+    <marker id="arrowhead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#3b3b3b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="800" height="600" fill="#FBF9F3"/>
+  <rect width="800" height="600" filter="url(#grain)"/>
+
+  <g filter="url(#pencil)" fill="none" stroke="#3b3b3b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+     font-family="'Bradley Hand','Segoe Print','Comic Sans MS',cursive">
+
+    <text x="48" y="56" font-size="26" fill="#2f2f2f" stroke="none">Runbook canvas — v1</text>
+    <path d="M48 66 C 140 62, 230 70, 300 64"/>
+
+    <text x="512" y="40" font-size="15" fill="#2f2f2f" stroke="none">one runbook → any client!</text>
+    <path d="M610 48 C 618 64, 622 82, 630 100" marker-end="url(#arrowhead)"/>
+
+    <path d="M50 92 L 752 90 L 754 522 L 48 520 Z"/>
+    <path d="M96 91 L 97 520"/>
+    <circle cx="72" cy="122" r="8"/>
+    <circle cx="72" cy="160" r="7"/>
+    <circle cx="72" cy="196" r="7"/>
+    <circle cx="72" cy="232" r="7"/>
+    <circle cx="72" cy="494" r="9"/>
+
+    <path d="M97 150 L 752 152"/>
+    <path d="M114 110 L 140 110 L 141 136 L 113 135 Z"/>
+    <path d="M132 116 L 122 123 L 132 130 M 122 123 L 136 123"/>
+    <text x="156" y="122" font-size="19" fill="#2f2f2f" stroke="none">Employee Onboarding</text>
+    <path d="M156 136 q 8 -4 16 0 t 16 0 t 16 0 t 16 0 t 16 0" stroke-width="1.2" stroke="#8a8a8a"/>
+
+    <text x="538" y="127" font-size="13" fill="#2f2f2f" stroke="none">applied to:</text>
+    <path d="M612 110 L 708 111 L 707 133 L 611 132 Z"/>
+    <text x="620" y="126" font-size="13" fill="#2f2f2f" stroke="none">client</text>
+    <path d="M688 118 L 694 125 L 700 118"/>
+    <ellipse cx="620" cy="121" rx="96" ry="22" stroke-width="1.3" stroke="#6b6b6b"/>
+
+    <path d="M716 170 L 738 170 L 738 192 L 716 192 Z M 721 181 L 733 181 M 727 175 L 727 187"/>
+    <path d="M716 196 L 738 196 L 738 218 L 716 218 Z M 721 207 L 733 207"/>
+
+    <path d="M120 236 L 238 234 L 240 284 L 121 286 Z"/>
+    <path d="M114 236 L 115 286" stroke-width="3"/>
+    <path d="M132 252 L 146 252 L 146 266 L 132 266 Z"/>
+    <path d="M134 259 L 139 264 L 148 250"/>
+    <path d="M156 254 q 6 -5 12 0 t 12 0 t 12 0 t 12 0 t 12 0 t 12 0" stroke-width="1.3"/>
+    <path d="M156 268 q 6 -5 12 0 t 12 0 t 12 0 t 12 0" stroke-width="1.3"/>
+
+    <path d="M241 260 L 286 260" marker-end="url(#arrowhead)"/>
+    <text x="246" y="252" font-size="11" fill="#555" stroke="none">unlock</text>
+
+    <path d="M290 236 L 408 236 L 409 286 L 290 285 Z"/>
+    <path d="M302 252 L 316 252 L 316 266 L 302 266 Z"/>
+    <path d="M304 259 L 309 264 L 318 250"/>
+    <path d="M326 254 q 6 -5 12 0 t 12 0 t 12 0 t 12 0 t 12 0 t 12 0" stroke-width="1.3"/>
+    <path d="M326 268 q 6 -5 12 0 t 12 0 t 12 0" stroke-width="1.3"/>
+
+    <path d="M410 260 L 456 261" marker-end="url(#arrowhead)"/>
+    <text x="415" y="252" font-size="11" fill="#555" stroke="none">unlock</text>
+
+    <path d="M460 236 L 578 237 L 578 286 L 460 285 Z"/>
+    <text x="470" y="266" font-size="15" fill="#2f2f2f" stroke="none">&gt;_</text>
+    <path d="M496 254 q 6 -5 12 0 t 12 0 t 12 0 t 12 0 t 12 0" stroke-width="1.3"/>
+    <text x="496" y="276" font-size="11" fill="#555" stroke="none">script.ps1</text>
+
+    <path d="M579 260 L 626 261" marker-end="url(#arrowhead)"/>
+    <text x="584" y="252" font-size="11" fill="#555" stroke="none">unlock</text>
+
+    <path d="M630 236 L 740 237 L 740 286 L 630 285 Z" stroke-dasharray="6 6" stroke="#8a8a8a"/>
+    <path d="M642 252 L 656 252 L 656 266 L 642 266 Z" stroke="#8a8a8a"/>
+    <path d="M666 256 q 6 -5 12 0 t 12 0 t 12 0 t 12 0" stroke-width="1.3" stroke="#8a8a8a"/>
+    <path d="M640 340 C 646 320, 664 304, 680 292" marker-end="url(#arrowhead)" stroke-width="1.3"/>
+    <text x="608" y="356" font-size="14" fill="#2f2f2f" stroke="none">locked till prev.</text>
+    <text x="630" y="374" font-size="14" fill="#2f2f2f" stroke="none">step is done</text>
+
+    <g transform="rotate(-3 186 340)">
+      <path d="M128 318 L 246 318 L 246 364 L 128 364 Z" stroke-dasharray="7 5"/>
+      <path d="M140 334 L 154 334 L 154 348 L 140 348 Z"/>
+      <path d="M164 340 q 6 -5 12 0 t 12 0 t 12 0 t 12 0 t 12 0" stroke-width="1.3"/>
+    </g>
+    <path d="M206 346 L 206 368 L 212 362 L 218 374 L 222 372 L 216 360 L 224 360 Z" stroke-width="1.5"/>
+    <text x="258" y="336" font-size="14" fill="#2f2f2f" stroke="none">drag nodes around —</text>
+    <text x="258" y="354" font-size="14" fill="#2f2f2f" stroke="none">order = execution order?</text>
+    <path d="M118 240 C 100 290, 104 318, 124 334" stroke-width="1.2" stroke="#6b6b6b" marker-end="url(#arrowhead)"/>
+
+    <path d="M130 420 L 136 420 M 150 420 L 290 420" stroke-width="1.4"/>
+    <path d="M130 444 L 136 444 M 150 444 L 260 444" stroke-width="1.4"/>
+    <path d="M130 468 L 136 468 M 150 468 L 280 468" stroke-width="1.4"/>
+    <path d="M118 404 L 306 486 M 306 404 L 118 486" stroke="#5a5a5a" stroke-width="2.2"/>
+    <text x="330" y="438" font-size="15" fill="#2f2f2f" stroke="none">plain checklist = too flat.</text>
+    <text x="330" y="460" font-size="15" fill="#2f2f2f" stroke="none">needs branching + scripts</text>
+    <path d="M330 468 C 400 472, 470 466, 520 470" stroke-width="1.2"/>
+
+    <text x="560" y="456" font-size="13" fill="#555" stroke="none">node types:</text>
+    <text x="560" y="476" font-size="13" fill="#555" stroke="none">task · script · value</text>
+    <text x="560" y="494" font-size="13" fill="#555" stroke="none">system action · ?</text>
+  </g>
+
+  <text x="48" y="568" font-family="'Bradley Hand','Segoe Print','Comic Sans MS',cursive" font-size="13" fill="#9a9a9a">p. 03</text>
+</svg>
