@@ -1,29 +1,22 @@
-import { useEffect, useRef, useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import CursorTrail from "./components/CursorTrail.jsx";
 import SiteFooter from "./components/SiteFooter.jsx";
 import PageLoader from "./components/PageLoader.jsx";
-import ImageLightbox from "./components/ImageLightbox.jsx";
+import SiteHeader from "./components/SiteHeader.jsx";
 import CompanyPill from "./components/CompanyPill.jsx";
 import superopsMark from "./assets/superops-mark.svg";
 import zohoMark from "./assets/zoho-mark.svg";
 import resumePdf from "./assets/Arvindhcm_Designer_resume.pdf";
 import { Highlighter } from "@/components/ui/highlighter";
 import { BentoGrid, BentoCard } from "@/components/ui/bento-grid";
-import profilePic from "./components/assets/myprofilepic.jpeg";
 import CaseStudyRunbooks from "./work/runbooks/CaseStudyRunbooks.jsx";
 import CaseStudyMonica from "./work/monica/CaseStudyMonica.jsx";
+import AboutPage from "./about/AboutPage.jsx";
+import { SECTION_HEADING_CLASS } from "./lib/typography.js";
 import "./App.css";
 import runbookDemo from "./work/runbooks/assets/runbookDemo.mp4";
 import similarTicket from "./work/monica/assets/similarticket.mp4";
-
-// EDIT: header nav links
-const NAV_LINKS = [
-  { label: "Work", href: "#work" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
-  { label: "Resume", href: resumePdf, isExternal: true },
-];
 
 // EDIT: roles shown in the Experience list, newest first
 const EXPERIENCE = [
@@ -45,11 +38,6 @@ const EXPERIENCE = [
 
 const [CURRENT_COMPANY, PREVIOUS_COMPANY] = EXPERIENCE;
 
-const SECTION_HEADING_CLASS =
-  "m-0 font-['Lora'] text-[26px] leading-tight font-medium tracking-[-0.01em] text-ink";
-const INLINE_LINK_CLASS =
-  "text-ink underline decoration-border-strong underline-offset-4 transition-colors hover:decoration-ink";
-
 /*
   QUICK EDIT GUIDE
   Search for "EDIT:" comments throughout this file — each one
@@ -66,6 +54,7 @@ export default function App() {
         <CursorTrail />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route
             path="/work/unified-runbooks"
             element={<CaseStudyRunbooks />}
@@ -81,7 +70,7 @@ function Home() {
   const cardRefs = useRef([]);
   cardRefs.current = [];
   const navigate = useNavigate();
-  const [isProfilePreviewOpen, setIsProfilePreviewOpen] = useState(false);
+  const location = useLocation();
 
   const registerCard = (el) => {
     if (el) cardRefs.current.push(el);
@@ -107,44 +96,14 @@ function Home() {
     cards.forEach((c) => c.classList.add("in-view"));
   }, []);
 
+  useEffect(() => {
+    if (!location.hash) return;
+    document.getElementById(location.hash.slice(1))?.scrollIntoView();
+  }, [location.hash, location.key]);
+
   return (
     <>
-      <header className="pointer-events-auto mx-auto flex max-w-[1120px] flex-wrap items-center justify-between gap-4 px-[25px] pt-12">
-        <div className="flex items-center gap-3">
-          <span className="font-['Lora'] text-[22px] font-medium tracking-[-0.01em] text-ink">
-            Arvindh C M
-          </span>
-          <button
-            type="button"
-            className="cursor-zoom-in appearance-none rounded-full border-0 bg-transparent p-0 transition-transform duration-150 ease-in-out hover:scale-110"
-            onClick={() => setIsProfilePreviewOpen(true)}
-            aria-label="Open full preview of profile picture"
-          >
-            <img
-              src={profilePic}
-              alt="Arvindh C M"
-              className="size-7 rounded-full object-cover"
-            />
-          </button>
-        </div>
-
-        <nav
-          aria-label="Primary"
-          className="flex items-center gap-0.5 rounded-full border border-border-strong bg-surface/70 p-1 backdrop-blur-md"
-        >
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              target={link.isExternal ? "_blank" : undefined}
-              rel={link.isExternal ? "noopener noreferrer" : undefined}
-              className="rounded-full px-3.5 py-1.5 text-sm text-muted transition-colors hover:bg-ink hover:text-surface max-[420px]:px-2.5 max-[420px]:text-[13px]"
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
-      </header>
+      <SiteHeader />
 
       <main className="mx-auto max-w-[1120px] px-[25px] pt-7 pb-[90px]">
         <section className="pointer-events-auto max-w-[620px] pt-24 text-[15.5px] leading-[1.7] max-[560px]:pt-16">
@@ -284,18 +243,18 @@ function Home() {
             {EXPERIENCE.map((role) => (
               <li
                 key={role.company}
-                className="flex items-baseline justify-between gap-6 py-1"
+                className="flex items-center justify-between gap-6 py-1"
               >
-                <span className="text-muted">
-                  <a
+                <span className="flex min-w-0 items-center gap-2.5 text-muted">
+                  <CompanyPill
+                    name={role.company}
                     href={role.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={INLINE_LINK_CLASS}
-                  >
-                    {role.company}
-                  </a>
-                  <span className="max-[480px]:hidden"> · {role.focus}</span>
+                    logo={role.logo}
+                    className="ml-0"
+                  />
+                  <span className="truncate max-[480px]:hidden">
+                    {role.focus}
+                  </span>
                 </span>
                 <span className="shrink-0 text-sm text-muted tabular-nums">
                   {role.years}
@@ -304,48 +263,9 @@ function Home() {
             ))}
           </ul>
         </section>
-
-        <section
-          id="about"
-          className="pointer-events-auto mt-24 max-w-[620px] scroll-mt-8 max-[560px]:mt-16"
-        >
-          <h2 className={SECTION_HEADING_CLASS}>The story so far</h2>
-          {/* EDIT: your story */}
-          <div className="mt-5 flex flex-col gap-3 text-[15.5px] leading-[1.7] text-muted">
-            <p className="m-0">
-              Started out untangling complex{" "}
-              <Highlighter action="underline" color="var(--accent)">
-                <span className="text-ink">
-                  ETL workflows and SQL editor at Zoho
-                </span>
-              </Highlighter>
-              , learning that good design is really about making hard things
-              feel obvious. That systems thinking followed me to SuperOps, where
-              I&rsquo;ve spent the last two years building an{" "}
-              <Highlighter action="highlight" color="var(--accent-soft-border)">
-                <span className="text-ink">AI-native ticketing platform</span>
-              </Highlighter>{" "}
-              from scratch. Somewhere between shipping Runbooks and chasing
-              state sync bugs, I found the kind of work I actually want to keep
-              doing.
-            </p>
-            <p className="m-0">
-              Off the clock, you&rsquo;ll find me playing football or out on
-              long mountain drives.
-            </p>
-          </div>
-        </section>
       </main>
 
       <SiteFooter resumeHref={resumePdf} />
-
-      {isProfilePreviewOpen && (
-        <ImageLightbox
-          src={profilePic}
-          alt="Arvindh C M"
-          onClose={() => setIsProfilePreviewOpen(false)}
-        />
-      )}
     </>
   );
 }
