@@ -29,6 +29,15 @@
   --leaf-vein: rgba(28, 44, 36, 0.24);
   --bark: #8A7258;
   --bark-shadow: #3F3B36;
+
+  /* ---- Case study pages (neutral reading layout) ---- */
+  --cs-bg: #F5F5F6;
+  --cs-fg: #000000;
+  --cs-fg-muted: #7C7C7C;
+  --cs-panel: #E8E8E8;
+  --cs-divider: #D9D9D9;
+  --cs-frame: #FFFFFF;
+  --cs-announcement-link: #E88C21;
 }
 
 /* Registers the palette above as Tailwind theme tokens (bg-ink, text-accent,
@@ -51,6 +60,18 @@
   --color-tertiary: var(--tertiary);
   --color-success: var(--success);
   --color-success-soft: var(--success-soft);
+
+  --color-cs-bg: var(--cs-bg);
+  --color-cs-fg: var(--cs-fg);
+  --color-cs-fg-muted: var(--cs-fg-muted);
+  --color-cs-panel: var(--cs-panel);
+  --color-cs-divider: var(--cs-divider);
+  --color-cs-frame: var(--cs-frame);
+  --color-cs-announcement-link: var(--cs-announcement-link);
+
+  --font-lato: 'Lato', ui-sans-serif, system-ui, sans-serif;
+
+  --ease-cs-out: cubic-bezier(0.22, 1, 0.36, 1);
 
   --radius-lg: 28px;
   --radius-md: 20px;

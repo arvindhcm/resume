@@ -17,7 +17,7 @@
 }
 
 .eyebrow {
-  @apply m-0 mb-2.5 text-xs font-semibold uppercase tracking-[.06em] text-muted;
+  @apply m-0 mb-2.5 text-[10.5px] font-medium uppercase tracking-[.14em] text-muted;
 }
 
 /* card spans — desktop */
@@ -84,7 +84,7 @@
 
 /* ---- Button (used by the Runbooks case study) ---- */
 .btn {
-  @apply inline-flex items-center gap-2 self-start rounded-full bg-ink px-5 py-3 text-sm font-semibold text-bg transition-[transform,opacity] duration-150 ease-[ease];
+  @apply inline-flex items-center gap-2 self-start rounded-full bg-ink px-5 py-3 text-sm font-medium text-bg transition-[transform,opacity] duration-150 ease-[ease];
 }
 .btn:hover { @apply -translate-y-px opacity-[.92]; }
 .btn svg { @apply size-3.5; }

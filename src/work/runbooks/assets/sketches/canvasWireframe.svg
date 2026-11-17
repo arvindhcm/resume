@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <pattern id="dots" width="16" height="16" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.1" fill="#D6D6D6"/>
+    </pattern>
+    <marker id="arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#8F8F8F"/>
+    </marker>
+    <filter id="lift" x="-10%" y="-20%" width="120%" height="160%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="#FFFFFF"/>
+  <rect x="24" y="24" width="752" height="552" rx="8" fill="#FAFAFA" stroke="#CFCFCF"/>
+
+  <path d="M32 24 H68 V576 H32 A8 8 0 0 1 24 568 V32 A8 8 0 0 1 32 24 Z" fill="#DADADA"/>
+  <rect x="36" y="40" width="20" height="20" rx="5" fill="#B5B5B5"/>
+  <rect x="38" y="80" width="16" height="16" rx="4" fill="#C4C4C4"/>
+  <rect x="38" y="110" width="16" height="16" rx="4" fill="#C4C4C4"/>
+  <rect x="38" y="140" width="16" height="16" rx="4" fill="#C4C4C4"/>
+  <rect x="38" y="170" width="16" height="16" rx="4" fill="#C4C4C4"/>
+  <circle cx="46" cy="550" r="10" fill="#B5B5B5"/>
+
+  <rect x="68" y="24" width="708" height="72" fill="#FFFFFF"/>
+  <line x1="68" y1="96" x2="776" y2="96" stroke="#E2E2E2"/>
+  <rect x="84" y="44" width="30" height="30" rx="6" fill="#FFFFFF" stroke="#CFCFCF"/>
+  <path d="M104 59 H94 M99 54 L94 59 L99 64" stroke="#8F8F8F" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="124" y="52" width="26" height="14" rx="7" fill="#E2E2E2"/>
+  <circle cx="132" cy="59" r="5" fill="#FFFFFF"/>
+  <rect x="160" y="42" width="34" height="34" rx="8" fill="#EFEFEF"/>
+  <text x="206" y="56" font-size="14" font-weight="600" fill="#5E5E5E">Runbook title</text>
+  <rect x="206" y="66" width="96" height="7" rx="3.5" fill="#E2E2E2"/>
+
+  <text x="470" y="63" font-size="10" fill="#8F8F8F">Applied to</text>
+  <rect x="526" y="49" width="104" height="22" rx="4" fill="#FFFFFF" stroke="#CFCFCF"/>
+  <rect x="534" y="57" width="52" height="7" rx="3.5" fill="#D6D6D6"/>
+  <path d="M614 57 L618 62 L622 57" stroke="#8F8F8F" stroke-width="1.4" fill="none"/>
+  <rect x="646" y="56" width="34" height="8" rx="4" fill="#D6D6D6"/>
+  <rect x="690" y="56" width="30" height="8" rx="4" fill="#D6D6D6"/>
+  <rect x="730" y="56" width="34" height="8" rx="4" fill="#D6D6D6"/>
+
+  <rect x="68" y="97" width="707" height="478" fill="url(#dots)"/>
+
+  <rect x="736" y="116" width="24" height="48" rx="5" fill="#FFFFFF" stroke="#CFCFCF"/>
+  <line x1="736" y1="140" x2="760" y2="140" stroke="#E2E2E2"/>
+  <path d="M743 128 H753 M748 123 V133 M743 152 H753" stroke="#8F8F8F" stroke-width="1.4"/>
+
+  <rect x="88" y="196" width="138" height="46" rx="7" fill="#FFFFFF" stroke="#BDBDBD"/>
+  <rect x="84" y="200" width="3" height="38" rx="1.5" fill="#7A7A7A"/>
+  <rect x="100" y="212" width="14" height="14" rx="3" fill="#CFCFCF"/>
+  <rect x="122" y="211" width="90" height="7" rx="3.5" fill="#D6D6D6"/>
+  <rect x="122" y="223" width="60" height="7" rx="3.5" fill="#D6D6D6"/>
+
+  <line x1="226" y1="219" x2="262" y2="219" stroke="#8F8F8F" stroke-width="1.2" marker-end="url(#arrowhead)"/>
+  <text x="231" y="212" font-size="8" fill="#8F8F8F">Unlock</text>
+
+  <rect x="266" y="196" width="138" height="46" rx="7" fill="#FFFFFF" stroke="#BDBDBD"/>
+  <rect x="278" y="212" width="14" height="14" rx="3" fill="#CFCFCF"/>
+  <rect x="300" y="211" width="88" height="7" rx="3.5" fill="#D6D6D6"/>
+  <rect x="300" y="223" width="50" height="7" rx="3.5" fill="#D6D6D6"/>
+
+  <line x1="404" y1="219" x2="440" y2="219" stroke="#8F8F8F" stroke-width="1.2" marker-end="url(#arrowhead)"/>
+  <text x="409" y="212" font-size="8" fill="#8F8F8F">Unlock</text>
+
+  <rect x="444" y="196" width="138" height="46" rx="7" fill="#FFFFFF" stroke="#BDBDBD"/>
+  <rect x="456" y="212" width="14" height="14" rx="3" fill="#CFCFCF"/>
+  <text x="459" y="223" font-size="8" font-weight="700" fill="#7A7A7A">&gt;_</text>
+  <rect x="478" y="215" width="70" height="7" rx="3.5" fill="#D6D6D6"/>
+
+  <line x1="582" y1="219" x2="618" y2="219" stroke="#8F8F8F" stroke-width="1.2" marker-end="url(#arrowhead)"/>
+  <text x="587" y="212" font-size="8" fill="#8F8F8F">Unlock</text>
+
+  <g opacity="0.45">
+    <rect x="622" y="196" width="138" height="46" rx="7" fill="#FFFFFF" stroke="#BDBDBD"/>
+    <rect x="634" y="212" width="14" height="14" rx="3" fill="#CFCFCF"/>
+    <rect x="656" y="215" width="84" height="7" rx="3.5" fill="#D6D6D6"/>
+  </g>
+
+  <g transform="rotate(-2 158 280)" filter="url(#lift)">
+    <rect x="90" y="258" width="138" height="44" rx="7" fill="#FFFFFF" stroke="#BDBDBD"/>
+    <rect x="102" y="273" width="14" height="14" rx="3" fill="#CFCFCF"/>
+    <rect x="124" y="276" width="84" height="7" rx="3.5" fill="#D6D6D6"/>
+  </g>
+  <path d="M152 286 L152 302 L156 298 L160 306 L163 305 L159 297 L165 297 Z" fill="#FFFFFF" stroke="#5E5E5E" stroke-width="1.2" stroke-linejoin="round"/>
+
+  <g font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">
+    <circle cx="512" cy="40" r="9" fill="#5E5E5E"/>
+    <text x="512" y="44">1</text>
+    <circle cx="244" cy="192" r="9" fill="#5E5E5E"/>
+    <text x="244" y="196">2</text>
+    <circle cx="770" cy="190" r="9" fill="#5E5E5E"/>
+    <text x="770" y="194">3</text>
+    <circle cx="244" cy="262" r="9" fill="#5E5E5E"/>
+    <text x="244" y="266">4</text>
+  </g>
+
+  <rect x="480" y="470" width="276" height="88" rx="6" fill="#FFFFFF" stroke="#E2E2E2"/>
+  <g font-size="11" fill="#5E5E5E">
+    <text x="496" y="492">1  Client selector — reuse across sites</text>
+    <text x="496" y="510">2  Unlock connector between steps</text>
+    <text x="496" y="528">3  Locked step until previous completes</text>
+    <text x="496" y="546">4  Drag to add or reorder steps</text>
+  </g>
+</svg>
