@@ -18,6 +18,17 @@
   --success: #1F9D45;
   --success-soft: #CDEBCF;
   --gap: 16px;
+
+  /* ---- Footer tree + leaf pile (read from canvas via getComputedStyle) ---- */
+  --leaf-1: #2F4A3F;
+  --leaf-2: #4A6B66;
+  --leaf-3: #6F8C6A;
+  --leaf-4: #A9B996;
+  --leaf-5: #C8B064;
+  --leaf-6: #DCD29A;
+  --leaf-vein: rgba(28, 44, 36, 0.24);
+  --bark: #8A7258;
+  --bark-shadow: #3F3B36;
 }
 
 /* Registers the palette above as Tailwind theme tokens (bg-ink, text-accent,

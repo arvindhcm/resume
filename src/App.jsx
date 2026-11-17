@@ -2,10 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { MapPin, Clock, Timer } from "lucide-react";
 import CursorTrail from "./components/CursorTrail.jsx";
-import FooterPhysics from "./components/FooterPhysics.jsx";
+import SiteFooter from "./components/SiteFooter.jsx";
 import PageLoader from "./components/PageLoader.jsx";
 import ImageLightbox from "./components/ImageLightbox.jsx";
-import ResumePreview from "./components/ResumePreview.jsx";
 import resumePdf from "./assets/Arvindhcm_Designer_resume.pdf";
 import Cover from "./components/Cover.jsx";
 import Dock from "./components/Dock.jsx";
@@ -27,18 +26,12 @@ import linkedinIcon from "./assets/linkedin.svg";
 import zohoLogo from "./assets/zoho-seeklogo.svg";
 import superopsLogo from "./assets/SuperOps.svg";
 import figmaLogo from "./assets/tools/figma.svg";
-import framerLogo from "./assets/tools/framer.svg";
 import reactLogo from "./assets/tools/react.svg";
-import webflowLogo from "./assets/tools/webflow.svg";
-import notionLogo from "./assets/tools/notion.svg";
-import linearLogo from "./assets/tools/linear.svg";
 import claudeLogo from "./assets/tools/claude.svg";
 import claudeCodeLogo from "./assets/tools/claudecode.svg";
 import htmlLogo from "./assets/tools/html5.svg";
 import cssLogo from "./assets/tools/css3.svg";
 import sassLogo from "./assets/tools/sass.svg";
-import jsLogo from "./assets/tools/javascript.svg";
-import githubLogo from "./assets/tools/github.svg";
 
 // EDIT: experience / location shown in the meta card
 const META_ROWS = [
@@ -65,24 +58,6 @@ const TOOLS = [
   { name: "sass", logo: sassLogo },
   { name: "Claude Design", logo: claudeLogo },
   { name: "Claude Code", logo: claudeCodeLogo },
-];
-
-// EDIT: swap/add entries to match the "Tools" card above — each drops in,
-// settles, and scatters when you hover near it in the footer.
-const FOOTER_LOGOS = [
-  { url: figmaLogo, shape: "circle", size: 48, count: 2 },
-  // { url: framerLogo, shape: "square", size: 44, count: 2 },
-  { url: reactLogo, shape: "circle", size: 46, count: 2 },
-  { url: webflowLogo, shape: "square", size: 44, count: 2 },
-  { url: notionLogo, shape: "circle", size: 44, count: 2 },
-  { url: linearLogo, shape: "square", size: 42, count: 2 },
-  { url: claudeLogo, shape: "circle", size: 46, count: 2 },
-  { url: claudeCodeLogo, shape: "square", size: 44, count: 2 },
-  { url: htmlLogo, shape: "circle", size: 44, count: 2 },
-  { url: cssLogo, shape: "circle", size: 44, count: 2 },
-  { url: sassLogo, shape: "square", size: 42, count: 2 },
-  { url: jsLogo, shape: "square", size: 44, count: 2 },
-  { url: githubLogo, shape: "circle", size: 46, count: 2 },
 ];
 
 /*
@@ -140,7 +115,6 @@ function Home() {
   cardRefs.current = [];
   const navigate = useNavigate();
   const [isProfilePreviewOpen, setIsProfilePreviewOpen] = useState(false);
-  const [isResumePreviewOpen, setIsResumePreviewOpen] = useState(false);
 
   const registerCard = (el) => {
     if (el) cardRefs.current.push(el);
@@ -166,7 +140,6 @@ function Home() {
     cards.forEach((c) => c.classList.add("in-view"));
   }, []);
 
-  const year = new Date().getFullYear();
 
   return (
     <>
@@ -243,11 +216,12 @@ function Home() {
             </a>
           </DockIcon>
           <DockIcon className="group relative">
-            <button
-              type="button"
-              onClick={() => setIsResumePreviewOpen(true)}
+            <a
+              href={resumePdf}
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="Resume"
-              className="flex h-full w-full cursor-pointer appearance-none items-center justify-center border-0 bg-transparent p-0 text-ink-soft transition-colors hover:text-ink"
+              className="flex h-full w-full items-center justify-center text-ink-soft transition-colors hover:text-ink"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -266,7 +240,7 @@ function Home() {
               <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-ink px-2 py-1 text-xs font-medium text-bg opacity-0 transition-opacity duration-150 group-hover:opacity-100">
                 Resume
               </span>
-            </button>
+            </a>
           </DockIcon>
         </Dock>
       </header>
@@ -624,12 +598,7 @@ function Home() {
         </BentoGrid>
       </main>
 
-      <footer className="pointer-events-auto site-footer">
-        <FooterPhysics logos={FOOTER_LOGOS} />
-        {/* <div className="wrap site-footer-line">
-          <span>© {year} · Built by hand</span>
-        </div> */}
-      </footer>
+      <SiteFooter resumeHref={resumePdf} />
 
       {isProfilePreviewOpen && (
         <ImageLightbox
@@ -639,13 +608,6 @@ function Home() {
         />
       )}
 
-      {isResumePreviewOpen && (
-        <ResumePreview
-          src={resumePdf}
-          fileName="Arvindhcm_Designer_resume.pdf"
-          onClose={() => setIsResumePreviewOpen(false)}
-        />
-      )}
     </>
   );
 }
