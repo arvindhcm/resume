@@ -14,6 +14,7 @@ export default function LeafPileCanvas({
   pileCenter,
   isCompact,
   isActive,
+  isInteractive = true,
   autoDrop,
   onToss,
   onTreeHit,
@@ -137,7 +138,7 @@ export default function LeafPileCanvas({
         onPointerMove={handlePointerMove}
         className={`absolute inset-x-0 bottom-0 z-[3] [-webkit-tap-highlight-color:transparent] ${
           isCompact ? "h-[120px]" : "h-[150px]"
-        }`}
+        } ${isInteractive ? "pointer-events-auto" : "pointer-events-none"}`}
       />
     </>
   );

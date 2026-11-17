@@ -5,6 +5,7 @@ const REVEAL_DELAY = 80;
 const GROW_DURATION = 1700;
 const HOLD_DURATION = GROW_DURATION + 400;
 const EXIT_DURATION = 500;
+export const PAGE_LOADER_DURATION = REVEAL_DELAY + HOLD_DURATION + EXIT_DURATION;
 
 export default function PageLoader() {
   const [phase, setPhase] = useState("enter");
@@ -23,7 +24,7 @@ export default function PageLoader() {
     );
     const unmountTimer = setTimeout(
       () => setMounted(false),
-      REVEAL_DELAY + HOLD_DURATION + EXIT_DURATION,
+      PAGE_LOADER_DURATION,
     );
 
     return () => {

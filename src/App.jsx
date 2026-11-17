@@ -1,64 +1,54 @@
 import { useEffect, useRef, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { MapPin, Clock, Timer } from "lucide-react";
 import CursorTrail from "./components/CursorTrail.jsx";
 import SiteFooter from "./components/SiteFooter.jsx";
 import PageLoader from "./components/PageLoader.jsx";
 import ImageLightbox from "./components/ImageLightbox.jsx";
+import CompanyPill from "./components/CompanyPill.jsx";
+import superopsMark from "./assets/superops-mark.svg";
+import zohoMark from "./assets/zoho-mark.svg";
 import resumePdf from "./assets/Arvindhcm_Designer_resume.pdf";
-import Cover from "./components/Cover.jsx";
-import Dock from "./components/Dock.jsx";
-import DockIcon from "./components/DockIcon.jsx";
 import { Highlighter } from "@/components/ui/highlighter";
-import { InteractiveGridPattern } from "@/components/ui/interactive-grid-pattern";
-import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import { BentoGrid, BentoCard } from "@/components/ui/bento-grid";
 import profilePic from "./components/assets/myprofilepic.jpeg";
 import CaseStudyRunbooks from "./work/runbooks/CaseStudyRunbooks.jsx";
 import CaseStudyMonica from "./work/monica/CaseStudyMonica.jsx";
 import "./App.css";
-import thumbnail from "./work/runbooks/assets/thumbnail.png";
 import runbookDemo from "./work/runbooks/assets/runbookDemo.mp4";
-import canvasWide from "./work/runbooks/assets/canvasWide.png";
 import similarTicket from "./work/monica/assets/similarticket.mp4";
 
-import linkedinIcon from "./assets/linkedin.svg";
-import zohoLogo from "./assets/zoho-seeklogo.svg";
-import superopsLogo from "./assets/SuperOps.svg";
-import figmaLogo from "./assets/tools/figma.svg";
-import reactLogo from "./assets/tools/react.svg";
-import claudeLogo from "./assets/tools/claude.svg";
-import claudeCodeLogo from "./assets/tools/claudecode.svg";
-import htmlLogo from "./assets/tools/html5.svg";
-import cssLogo from "./assets/tools/css3.svg";
-import sassLogo from "./assets/tools/sass.svg";
+// EDIT: header nav links
+const NAV_LINKS = [
+  { label: "Work", href: "#work" },
+  { label: "About", href: "#about" },
+  { label: "Contact", href: "#contact" },
+  { label: "Resume", href: resumePdf, isExternal: true },
+];
 
-// EDIT: experience / location shown in the meta card
-const META_ROWS = [
+// EDIT: roles shown in the Experience list, newest first
+const EXPERIENCE = [
   {
-    icon: Timer,
-    value: "7+ yrs Experience",
-    label: "Design & Dev",
-    // tag: "Design & Dev",
+    company: "SuperOps",
+    href: "https://superops.com",
+    logo: superopsMark,
+    focus: "AI-native ticketing platform",
+    years: "2023 – Present",
   },
   {
-    icon: MapPin,
-    value: "Chennai,India",
-    label: "Location",
-    // tag: "India"
+    company: "Zoho",
+    href: "https://www.zoho.com",
+    logo: zohoMark,
+    focus: "ETL workflows & SQL editor",
+    years: "2019 – 2023",
   },
 ];
 
-// EDIT: swap/add tools shown in the "Tools" card
-const TOOLS = [
-  { name: "Figma", logo: figmaLogo },
-  { name: "React", logo: reactLogo },
-  { name: "Html5", logo: htmlLogo },
-  { name: "css", logo: cssLogo },
-  { name: "sass", logo: sassLogo },
-  { name: "Claude Design", logo: claudeLogo },
-  { name: "Claude Code", logo: claudeCodeLogo },
-];
+const [CURRENT_COMPANY, PREVIOUS_COMPANY] = EXPERIENCE;
+
+const SECTION_HEADING_CLASS =
+  "m-0 font-['Lora'] text-[26px] leading-tight font-medium tracking-[-0.01em] text-ink";
+const INLINE_LINK_CLASS =
+  "text-ink underline decoration-border-strong underline-offset-4 transition-colors hover:decoration-ink";
 
 /*
   QUICK EDIT GUIDE
@@ -68,34 +58,11 @@ const TOOLS = [
   at the top of src/index.css.
 */
 
-const GRID_CELL_SIZE = 40;
-
 export default function App() {
-  const [gridSquares, setGridSquares] = useState([32, 20]);
-
-  useEffect(() => {
-    const updateGridSquares = () => {
-      setGridSquares([
-        Math.ceil(window.innerWidth / GRID_CELL_SIZE),
-        Math.ceil(window.innerHeight / GRID_CELL_SIZE),
-      ]);
-    };
-
-    updateGridSquares();
-    window.addEventListener("resize", updateGridSquares);
-    return () => window.removeEventListener("resize", updateGridSquares);
-  }, []);
-
   return (
     <>
       <PageLoader />
-      <InteractiveGridPattern
-        width={GRID_CELL_SIZE}
-        height={GRID_CELL_SIZE}
-        squares={gridSquares}
-        className="pointer-events-auto fixed inset-0 z-0 h-screen w-screen border-none"
-      />
-      <div className="relative z-10 pointer-events-none">
+      <div className="relative z-10">
         <CursorTrail />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -140,462 +107,234 @@ function Home() {
     cards.forEach((c) => c.classList.add("in-view"));
   }, []);
 
-
   return (
     <>
-      <header className="pointer-events-auto flex justify-center pt-10">
-        <Dock>
-          <DockIcon className="group relative">
+      <header className="pointer-events-auto mx-auto flex max-w-[1120px] flex-wrap items-center justify-between gap-4 px-[25px] pt-12">
+        <div className="flex items-center gap-3">
+          <span className="font-['Lora'] text-[22px] font-medium tracking-[-0.01em] text-ink">
+            Arvindh C M
+          </span>
+          <button
+            type="button"
+            className="cursor-zoom-in appearance-none rounded-full border-0 bg-transparent p-0 transition-transform duration-150 ease-in-out hover:scale-110"
+            onClick={() => setIsProfilePreviewOpen(true)}
+            aria-label="Open full preview of profile picture"
+          >
+            <img
+              src={profilePic}
+              alt="Arvindh C M"
+              className="size-7 rounded-full object-cover"
+            />
+          </button>
+        </div>
+
+        <nav
+          aria-label="Primary"
+          className="flex items-center gap-0.5 rounded-full border border-border-strong bg-surface/70 p-1 backdrop-blur-md"
+        >
+          {NAV_LINKS.map((link) => (
             <a
-              href="#work1"
-              aria-label="Work"
-              className="flex h-full w-full items-center justify-center text-ink-soft transition-colors hover:text-ink"
+              key={link.label}
+              href={link.href}
+              target={link.isExternal ? "_blank" : undefined}
+              rel={link.isExternal ? "noopener noreferrer" : undefined}
+              className="rounded-full px-3.5 py-1.5 text-sm text-muted transition-colors hover:bg-ink hover:text-surface max-[420px]:px-2.5 max-[420px]:text-[13px]"
             >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-full w-full"
-              >
-                <rect x="2" y="7" width="20" height="14" rx="2" />
-                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-              </svg>
-              <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-ink px-2 py-1 text-xs font-medium text-bg opacity-0 transition-opacity duration-150 group-hover:opacity-100">
-                Work
-              </span>
+              {link.label}
             </a>
-          </DockIcon>
-          <DockIcon className="group relative">
-            <a
-              id="aboutpagelink"
-              href="#about"
-              aria-label="About"
-              className="flex h-full w-full items-center justify-center text-ink-soft transition-colors hover:text-ink"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-full w-full"
-              >
-                <circle cx="12" cy="8" r="4" />
-                <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" />
-              </svg>
-              <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-ink px-2 py-1 text-xs font-medium text-bg opacity-0 transition-opacity duration-150 group-hover:opacity-100">
-                About
-              </span>
-            </a>
-          </DockIcon>
-          <DockIcon className="group relative">
-            <a
-              href="#contact2"
-              aria-label="Contact"
-              className="flex h-full w-full items-center justify-center text-ink-soft transition-colors hover:text-ink"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-full w-full"
-              >
-                <rect x="2" y="4" width="20" height="16" rx="2" />
-                <path d="m22 6-10 7L2 6" />
-              </svg>
-              <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-ink px-2 py-1 text-xs font-medium text-bg opacity-0 transition-opacity duration-150 group-hover:opacity-100">
-                Contact
-              </span>
-            </a>
-          </DockIcon>
-          <DockIcon className="group relative">
-            <a
-              href={resumePdf}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Resume"
-              className="flex h-full w-full items-center justify-center text-ink-soft transition-colors hover:text-ink"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-full w-full"
-              >
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                <polyline points="14 2 14 8 20 8" />
-                <line x1="8" y1="13" x2="16" y2="13" />
-                <line x1="8" y1="17" x2="13" y2="17" />
-              </svg>
-              <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-ink px-2 py-1 text-xs font-medium text-bg opacity-0 transition-opacity duration-150 group-hover:opacity-100">
-                Resume
-              </span>
-            </a>
-          </DockIcon>
-        </Dock>
+          ))}
+        </nav>
       </header>
 
-      {/* <Cover /> */}
-
-      <main className="wrap">
-        <BentoGrid>
-          {/* PROFILE CARD — EDIT: your name, role, initials */}
-          <BentoCard
-            ref={registerCard}
-            className="card card--profile span-2c span-2r"
-          >
-            <div className="flex items-center">
-              <button
-                type="button"
-                className="mt-5 cursor-zoom-in appearance-none rounded-full border-0 bg-transparent p-0 transition-transform duration-150 ease-in-out hover:scale-105"
-                onClick={() => setIsProfilePreviewOpen(true)}
-                aria-label="Open full preview of profile picture"
-              >
-                <img
-                  src={profilePic}
-                  alt="Arvindh C M"
-                  className="avatar size-16 rounded-full object-cover"
-                />
-              </button>
-              <div className="ml-3">
-                <h1>Arvindh C M</h1>
-                <div className="role">Product Designer / UX Engineer</div>
-              </div>
-            </div>
-
-            <p className="lede">
-              I’m a product designer who loves crafting calm, clear experiences
-              . I design with a systems mindset simplifying complex workflows,
-              elevating visual clarity, and shaping products that scale with
-              intention.
-              {/* Currently at Superops, designing AI native ticketing */}
-              {/* platform. Previously at Zoho . */}
+      <main className="mx-auto max-w-[1120px] px-[25px] pt-7 pb-[90px]">
+        <section className="pointer-events-auto max-w-[620px] pt-24 text-[15.5px] leading-[1.7] max-[560px]:pt-16">
+          {/* EDIT: intro copy */}
+          <h1 className="m-0 text-[15.5px] font-medium text-ink">
+            I&rsquo;m Arvindh.
+          </h1>
+          <div className="mt-1.5 flex flex-col gap-2 text-muted">
+            <p className="m-0">
+              Product Designer / UX Engineer @{" "}
+              <CompanyPill
+                name={CURRENT_COMPANY.company}
+                href={CURRENT_COMPANY.href}
+                logo={CURRENT_COMPANY.logo}
+              />
+              , previously at{" "}
+              <CompanyPill
+                name={PREVIOUS_COMPANY.company}
+                href={PREVIOUS_COMPANY.href}
+                logo={PREVIOUS_COMPANY.logo}
+              />
+              .
             </p>
-          </BentoCard>
-
-          {/* HEADLINE CARD — EDIT: your one-line positioning statement */}
-          {/* <div
-            ref={registerCard}
-            className="card card--headline span-2c span-2r"
-          >
-            <p className="eyebrow">What I do</p>
-            <p>
-              I’m Jona, a UX designer with 7 years of experience on complex,
-              enterprise-scale products. I specialize in end-to-end design, from
-              research to implementation, and collaborate closely with
-              cross-functional teams to deliver user-centered solutions. I’m
-              passionate about AI and exploring how Designer-AI collaboration
-              can become more effective and trustworthy.
+            <p className="m-0">
+              I design 0→1 products, help them scale, and I design in code. I
+              obsess over creating delightful experiences through taste,
+              interaction, and craft, even more so now that AI has made it easy
+              to build things and everything looks the same.
             </p>
-          </div> */}
-
-          {/* STATUS CARD — EDIT: toggle wording / remove if unavailable */}
-          <BentoCard
-            ref={registerCard}
-            className="card card--experience span-2c span-1r"
-          >
-            <p className="eyebrow">Experience</p>
-            <div className="exp-row">
-              <div className="exp-brand">
-                <img
-                  style={{ height: "25px" }}
-                  src={zohoLogo}
-                  alt="Zoho Corp"
-                  className="exp-logo-img"
-                />
-                {/* <div className="exp-label">Zoho Corp</div> */}
-              </div>
-              <div className="exp-years">2019 – 2023</div>
-            </div>
-            <div className="exp-row">
-              <div className="exp-brand">
-                <img
-                  style={{ height: "25px" }}
-                  src={superopsLogo}
-                  alt="SuperOps"
-                  className="exp-logo-img"
-                />
-                {/* <div className="exp-label">SuperOps</div> */}
-              </div>
-              <div className="exp-years">2023 – Present</div>
-            </div>
-          </BentoCard>
-
-          {/* TOOLS CARD — EDIT: swap tags for your actual stack */}
-          <BentoCard
-            ref={registerCard}
-            className="card card--tools span-1c span-2r"
-          >
-            <p className="eyebrow">Tools</p>
-            <h3>What I work with</h3>
-            <p className="lede">Design, code, and everything in between</p>
-            <div className="tag-grid gap-1.5!">
-              {TOOLS.map((tool) => (
-                <span
-                  key={tool.name}
-                  className="tag inline-flex items-center gap-1.5 px-2.5! py-1!"
-                >
-                  <img src={tool.logo} alt="" className="size-3.5 shrink-0" />
-                  {tool.name}
-                </span>
-              ))}
-            </div>
-          </BentoCard>
-
-          {/* META CARD — EDIT: experience, focus, location */}
-          <BentoCard
-            ref={registerCard}
-            className="card span-1c span-1r justify-center py-4!"
-          >
-            {META_ROWS.map(({ icon: Icon, value, label, tag }) => (
-              <div
-                key={label}
-                className="flex items-center gap-2 not-first:mt-2.5  not-first:pt-2.5"
-              >
-                <span className="flex size-8 shrink-0 items-center justify-center rounded-[10px]">
-                  <Icon className="size-4 text-muted" />
-                </span>
-                <div className="shrink-0">
-                  <h3>{value}</h3>
-                  <div className="text-xs text-muted">{label}</div>
-                </div>
-                {/* <span className="ml-auto rounded-[6px] bg-bg px-2 py-0.5 text-right text-[11px] leading-tight text-ink-soft">
-                  {tag}
-                </span> */}
-              </div>
-            ))}
-          </BentoCard>
-
-          {/* AVAILABILITY CARD — EDIT: time zones you can work in */}
-          <BentoCard
-            ref={registerCard}
-            className="card span-1c span-1r justify-center"
-          >
-            <span className="inline-flex w-fit items-center gap-1.5 py-1 text-xs font-medium text-ink mb-1.5">
-              {/* <span className="size-1.5 rounded-full bg-success"></span> */}
+            <p className="m-0">
+              7+ years across design &amp; dev, based in Chennai, India.
+            </p>
+            <p className="m-0">
               <Highlighter action="highlight" color="var(--accent-soft-border)">
-                Open to remote work
-              </Highlighter>
-            </span>
-            <div className="mt-2 flex items-start gap-1.5">
-              <MapPin className="mt-0.5 size-4 shrink-0 text-muted" />
-              <div className="flex flex-wrap gap-1">
-                {["US", "EU", "New Zealand", "India"].map((region) => (
-                  <span
-                    key={region}
-                    className="rounded-md bg-bg px-2 py-0.5 text-xs font-medium text-ink-soft"
-                  >
-                    {region}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div className="my-2 h-px bg-border-strong"></div>
-            <div className="flex items-center gap-1.5 text-xs text-muted">
-              <Clock className="size-4 shrink-0" />
-              Happy to overlap with your timezone.
-            </div>
-          </BentoCard>
+                <span className="text-ink">Open to remote work</span>
+              </Highlighter>{" "}
+              across the US, EU, New Zealand and India, and happy to overlap
+              with your timezone.
+            </p>
+          </div>
+        </section>
 
-          {/* WORK — main piece. EDIT: replace gradient block with a real screenshot,
+        <section id="work" className="mt-24 scroll-mt-8 max-[560px]:mt-16">
+          <h2 className={SECTION_HEADING_CLASS}>Work</h2>
+          <BentoGrid className="mt-6">
+            {/* WORK — main piece. EDIT: replace gradient block with a real screenshot,
               update tag/title/description. To use an image instead of the gradient,
               swap the inline background-image style below for your asset. */}
 
-          <BentoCard
-            id="work1"
-            ref={registerCard}
-            className="card card--work work-mint work-featured span-4c span-2r card--clickable"
-            role="button"
-            tabIndex={0}
-            data-cursor-label="Show details"
-            onClick={() => navigate("/work/unified-runbooks")}
-            onKeyDown={(e) =>
-              (e.key === "Enter" || e.key === " ") &&
-              navigate("/work/unified-runbooks")
-            }
-          >
-            <div className="work-left">
-              <span className="work-tag">2024 - 2025</span>
-              <div className="work-spacer"></div>
-              <div className="work-copy">
-                <h3>Unified Runbooks — SuperOps PSA</h3>
-                <p>
-                  Turning SOPs into guided, automated workflows. Click to read
-                  the case study.
-                </p>
+            <BentoCard
+              id="work1"
+              ref={registerCard}
+              className="card card--work work-mint work-featured span-4c span-2r card--clickable"
+              role="button"
+              tabIndex={0}
+              data-cursor-label="Show details"
+              onClick={() => navigate("/work/unified-runbooks")}
+              onKeyDown={(e) =>
+                (e.key === "Enter" || e.key === " ") &&
+                navigate("/work/unified-runbooks")
+              }
+            >
+              <div className="work-left">
+                <span className="work-tag">2024 - 2025</span>
+                <div className="work-spacer"></div>
+                <div className="work-copy">
+                  <h3>Unified Runbooks — SuperOps PSA</h3>
+                  <p>
+                    Turning SOPs into guided, automated workflows. Click to read
+                    the case study.
+                  </p>
+                </div>
               </div>
-            </div>
-            <video
-              className="w-1/2 p-8"
-              src={runbookDemo}
-              autoPlay
-              loop
-              muted
-              playsInline
-              // style={{ padding: "30px" }}
-            />
-            {/* <img
+              <video
+                className="w-1/2 p-8"
+                src={runbookDemo}
+                autoPlay
+                loop
+                muted
+                playsInline
+                // style={{ padding: "30px" }}
+              />
+              {/* <img
               className="work-thumb"
               src={thumbnail}
               alt="Close-up of the runbook canvas with checklist and script nodes"
               loading="lazy"
             /> */}
-          </BentoCard>
+            </BentoCard>
 
-          {/* WORK — secondary piece. EDIT as above. */}
-          <BentoCard
-            id="work2"
-            ref={registerCard}
-            className="card card--work work-sky work-featured span-4c span-2r card--clickable"
-            role="button"
-            tabIndex={0}
-            data-cursor-label="Show details"
-            onClick={() => navigate("/work/monica-ai")}
-            onKeyDown={(e) =>
-              (e.key === "Enter" || e.key === " ") &&
-              navigate("/work/monica-ai")
-            }
-          >
-            <div className="work-left">
-              <span className="work-tag">2025 - 2026</span>
-              <div className="work-spacer"></div>
-              <div className="work-copy">
-                <h3>Monica AI — SuperOps</h3>
-                <p>
-                  Designing trust into an AI that gets to act on its own. Click
-                  to read the case study.
-                </p>
+            {/* WORK — secondary piece. EDIT as above. */}
+            <BentoCard
+              id="work2"
+              ref={registerCard}
+              className="card card--work work-sky work-featured span-4c span-2r card--clickable"
+              role="button"
+              tabIndex={0}
+              data-cursor-label="Show details"
+              onClick={() => navigate("/work/monica-ai")}
+              onKeyDown={(e) =>
+                (e.key === "Enter" || e.key === " ") &&
+                navigate("/work/monica-ai")
+              }
+            >
+              <div className="work-left">
+                <span className="work-tag">2025 - 2026</span>
+                <div className="work-spacer"></div>
+                <div className="work-copy">
+                  <h3>Monica AI — SuperOps</h3>
+                  <p>
+                    Designing trust into an AI that gets to act on its own.
+                    Click to read the case study.
+                  </p>
+                </div>
               </div>
-            </div>
-            <video
-              className="w-3/5"
-              src={similarTicket}
-              autoPlay
-              loop
-              muted
-              playsInline
-            />
-            {/* <img
+              <video
+                className="w-3/5"
+                src={similarTicket}
+                autoPlay
+                loop
+                muted
+                playsInline
+              />
+              {/* <img
               className="w-3/5 object-cover"
               // src={monicaHero}
               alt="Monica AI product walkthrough inside the SuperOps console"
               loading="lazy"
             /> */}
-          </BentoCard>
+            </BentoCard>
+          </BentoGrid>
+        </section>
 
-          {/* ABOUT CARD — EDIT: your story */}
-          <BentoCard
-            id="about"
-            ref={registerCard}
-            className="card card--about span-3c span-2r flex justify-between"
-          >
-            <div>
-              {/* <p className="eyebrow">About</p> */}
-              <h3>The story so far</h3>
-            </div>
-            <p className="lede">
+        <section className="pointer-events-auto mt-24 max-w-[620px] max-[560px]:mt-16">
+          <h2 className={SECTION_HEADING_CLASS}>Experience</h2>
+          <ul className="m-0 mt-5 flex list-none flex-col gap-1 p-0 text-[15.5px] leading-[1.7]">
+            {EXPERIENCE.map((role) => (
+              <li
+                key={role.company}
+                className="flex items-baseline justify-between gap-6 py-1"
+              >
+                <span className="text-muted">
+                  <a
+                    href={role.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={INLINE_LINK_CLASS}
+                  >
+                    {role.company}
+                  </a>
+                  <span className="max-[480px]:hidden"> · {role.focus}</span>
+                </span>
+                <span className="shrink-0 text-sm text-muted tabular-nums">
+                  {role.years}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section
+          id="about"
+          className="pointer-events-auto mt-24 max-w-[620px] scroll-mt-8 max-[560px]:mt-16"
+        >
+          <h2 className={SECTION_HEADING_CLASS}>The story so far</h2>
+          {/* EDIT: your story */}
+          <div className="mt-5 flex flex-col gap-3 text-[15.5px] leading-[1.7] text-muted">
+            <p className="m-0">
               Started out untangling complex{" "}
               <Highlighter action="underline" color="var(--accent)">
-                ETL workflows and SQL editor at Zoho
+                <span className="text-ink">
+                  ETL workflows and SQL editor at Zoho
+                </span>
               </Highlighter>
               , learning that good design is really about making hard things
               feel obvious. That systems thinking followed me to SuperOps, where
-              I've spent the last two years building an{" "}
+              I&rsquo;ve spent the last two years building an{" "}
               <Highlighter action="highlight" color="var(--accent-soft-border)">
-                AI-native ticketing platform
+                <span className="text-ink">AI-native ticketing platform</span>
               </Highlighter>{" "}
               from scratch. Somewhere between shipping Runbooks and chasing
               state sync bugs, I found the kind of work I actually want to keep
-              doing.{" "}
+              doing.
             </p>
-          </BentoCard>
-
-          {/* CONTACT CARD — EDIT: email address / CTA copy */}
-          <BentoCard
-            id="contact"
-            ref={registerCard}
-            className="card card--contact span-1c span-1r"
-          >
-            <h3>Let's work together</h3>
-            <InteractiveHoverButton
-              href="mailto:arvindhcm7@gmail.com"
-              className="self-start"
-            >
-              Contact
-            </InteractiveHoverButton>
-          </BentoCard>
-
-          {/* HOBBIES CARD — EDIT: what you get up to outside of design */}
-          <BentoCard
-            ref={registerCard}
-            className="card card--hobbies span-1c span-1r bg-surface-alt!"
-          >
-            <p className="eyebrow">Off the clock</p>
-            <div className="tag-grid">
-              <span className="tag">
-                <span aria-hidden="true">⚽</span> Football
-              </span>
-              {/* <span className="tag">
-                <span aria-hidden="true">🎾</span> Football
-              </span> */}
-              <span className="tag">
-                <span aria-hidden="true">🏔️</span> Mountain drives
-              </span>
-            </div>
-          </BentoCard>
-
-          {/* SOCIALS CARD — EDIT: your real profile links.
-              Sized at span-2r so the last link keeps its bottom padding;
-              it has enough headroom for a 3rd link without growing further. */}
-          <BentoCard
-            id="contact2"
-            ref={registerCard}
-            className="card card--socials span-2r"
-          >
-            <p className="eyebrow">Find me</p>
-            <div className="social-list">
-              {/* <a
-                href="https://x.com/yourhandle"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                X / Twitter <span className="arrow">→</span>
-              </a> */}
-              <a
-                href="https://linkedin.com/in/arvindhcm"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span className="social-label">
-                  <img
-                    src={linkedinIcon}
-                    alt=""
-                    className="social-icon"
-                    aria-hidden="true"
-                  />
-                  LinkedIn
-                </span>
-                <span className="arrow">→</span>
-              </a>
-              <a href="tel:+916384769554">
-                ☎️ +91 6384769554 <span className="arrow">→</span>
-              </a>
-              <a href="mailto:arvindhcm7@gmail.com">
-                📧 arvindhcm7@gmail <span className="arrow">→</span>
-              </a>
-            </div>
-          </BentoCard>
-        </BentoGrid>
+            <p className="m-0">
+              Off the clock, you&rsquo;ll find me playing football or out on
+              long mountain drives.
+            </p>
+          </div>
+        </section>
       </main>
 
       <SiteFooter resumeHref={resumePdf} />
@@ -607,7 +346,6 @@ function Home() {
           onClose={() => setIsProfilePreviewOpen(false)}
         />
       )}
-
     </>
   );
 }
