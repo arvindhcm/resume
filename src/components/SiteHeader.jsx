@@ -8,7 +8,7 @@ import resumePdf from "../assets/Arvindhcm_Designer_resume.pdf";
 const NAV_LINKS = [
   { label: "Work", to: { pathname: "/", hash: "#work" }, activePath: "/" },
   { label: "About", to: "/about", activePath: "/about" },
-  { label: "Contact", href: "#contact" },
+  // { label: "Contact", href: "#contact" },
   { label: "Resume", href: resumePdf, isExternal: true },
 ];
 

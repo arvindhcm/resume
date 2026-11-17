@@ -134,14 +134,15 @@ function Home() {
               to build things and everything looks the same.
             </p>
             <p className="m-0">
-              7+ years across design &amp; dev, based in Chennai, India.
+              <Highlighter action="highlight" color="var(--accent-soft-border)">
+                {" "}
+                <span className="text-ink">7+ years</span>
+              </Highlighter>{" "}
+              across design &amp; dev, based in 📍 Chennai, India.
             </p>
             <p className="m-0">
-              <Highlighter action="highlight" color="var(--accent-soft-border)">
-                <span className="text-ink">Open to remote work</span>
-              </Highlighter>{" "}
-              across the US, EU, New Zealand and India, and happy to overlap
-              with your timezone.
+              Open to remote work across the US, EU, New Zealand and India, and
+              happy to overlap with your timezone.
             </p>
           </div>
         </section>
@@ -170,7 +171,7 @@ function Home() {
                 <span className="work-tag">2024 - 2025</span>
                 <div className="work-spacer"></div>
                 <div className="work-copy">
-                  <h3>Unified Runbooks — SuperOps PSA</h3>
+                  <h3>Unified Runbooks</h3>
                   <p>
                     Turning SOPs into guided, automated workflows. Click to read
                     the case study.
@@ -212,7 +213,7 @@ function Home() {
                 <span className="work-tag">2025 - 2026</span>
                 <div className="work-spacer"></div>
                 <div className="work-copy">
-                  <h3>Monica AI — SuperOps</h3>
+                  <h3>Monica AI</h3>
                   <p>
                     Designing trust into an AI that gets to act on its own.
                     Click to read the case study.
