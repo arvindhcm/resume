@@ -17,9 +17,9 @@ import easingPlaygroundPoster from "./assets/easingPlaygroundPoster.jpg";
 // EDIT: play items, newest first. Snapshots are 16:10; posters are their first frame.
 const PLAY_ITEMS = [
   {
-    title: "Easing Playground",
+    title: "Transition Playground",
     description:
-      "Shape a cubic-bezier curve and watch it drive a toast, a modal and a list reorder, then copy it as CSS, Tailwind or Motion.",
+      "Shape a cubic-bezier curve and watch it drive a toggle, a toast, a modal and a reorder you can play with, then copy it as CSS, Tailwind or Motion.",
     // EDIT: swap for the live URL once the playground is deployed.
     href: "https://arvindhcm.github.io/easing-playground/",
     snapshot: easingPlaygroundSnapshot,
