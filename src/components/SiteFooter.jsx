@@ -8,6 +8,7 @@ import {
 } from "framer-motion";
 import WatercolorTree from "./WatercolorTree.jsx";
 import LeafPileCanvas from "./LeafPileCanvas.jsx";
+import PixelFootballerCanvas from "./PixelFootballerCanvas.jsx";
 import { PAGE_LOADER_DURATION } from "./PageLoader.jsx";
 import { readCssColor, readLeafColors } from "../lib/cssTokens.js";
 import { useIsCompact } from "../lib/useIsCompact.js";
@@ -38,7 +39,12 @@ const PAGE_BACKDROP_CLASS = "fixed inset-0 -z-10 bg-linear-to-b from-surface to-
   for short pages where a pinned backdrop would show through from the start.
   The fixed gradient stays either way since it is the page background.
 */
-export default function SiteFooter({ resumeHref, isPinned = true }) {
+export default function SiteFooter({
+  resumeHref,
+  isPinned = true,
+  shouldAnimateTree = true,
+  hasFootballer = false,
+}) {
   const spacerRef = useRef(null);
   const layerRef = useRef(null);
   const sceneRef = useRef(null);
@@ -272,7 +278,7 @@ export default function SiteFooter({ resumeHref, isPinned = true }) {
                 >
                   <WatercolorTree
                     shouldGrow={shouldGrowTree}
-                    instant={prefersReducedMotion}
+                    instant={prefersReducedMotion || !shouldAnimateTree}
                   />
                 </motion.div>
                 {!isCompact && elsewhere}
@@ -293,6 +299,15 @@ export default function SiteFooter({ resumeHref, isPinned = true }) {
                 onToss={() => setHasTossed(true)}
                 onTreeHit={shakeTree}
               />
+
+              {hasFootballer && !prefersReducedMotion && (
+                <PixelFootballerCanvas
+                  sceneRef={sceneRef}
+                  treeRef={treeRef}
+                  pileRef={pileRef}
+                  isCompact={isCompact}
+                />
+              )}
 
               <motion.button
                 type="button"

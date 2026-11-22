@@ -29,6 +29,10 @@
   --leaf-vein: rgba(28, 44, 36, 0.24);
   --bark: #8A7258;
   --bark-shadow: #3F3B36;
+  --footballer-skin: #C98E62;
+  --footballer-shirt: #2F5FD0;
+  --footballer-shorts: #FFFFFE;
+  --footballer-shorts-hem: #B8BEC9;
 
   /* ---- Case study pages (neutral reading layout) ---- */
   --cs-bg: #F5F5F6;

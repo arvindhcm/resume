@@ -56,6 +56,14 @@ const SLIVER_RATIO = 0.42;
 const SNAPSHOT_ASPECT = 10 / 16;
 const SWIPE_DISTANCE = 40;
 const SWIPE_VELOCITY = 320;
+const WHEEL_STEP_DISTANCE = 40;
+const WHEEL_GESTURE_GAP_MS = 180;
+const WHEEL_LINE_HEIGHT = 16;
+const WHEEL_COAST_DECAY_SHARE = 0.6;
+const WHEEL_RENEW_FACTOR = 1.4;
+const WHEEL_RENEW_MARGIN = 3;
+const WHEEL_MIN_REVERSE_DELTA = 3;
+const WHEEL_MIN_STEP_INTERVAL_MS = 250;
 
 export default function PlayPage() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -84,6 +92,75 @@ export default function PlayPage() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
+
+  useEffect(() => {
+    const trackWrapper = trackWrapperRef.current;
+    if (!trackWrapper) return;
+    let accumulatedDelta = 0;
+    let hasSteppedThisGesture = false;
+    let gestureEndTimer = 0;
+    let stepDirection = 0;
+    let steppedAt = 0;
+    let peakMagnitude = 0;
+    let previousMagnitude = 0;
+    let isCoasting = false;
+
+    const startNewGesture = () => {
+      accumulatedDelta = 0;
+      hasSteppedThisGesture = false;
+    };
+
+    // A trackpad swipe arrives as a stream of wheel events followed by an
+    // inertia tail that keeps firing for ~1s after the fingers lift. Step once
+    // per swipe, but since inertia only ever decays in one direction, a delta
+    // that reverses or spikes back up while coasting means a fresh swipe.
+    const handleWheel = (event) => {
+      if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+      // Non-passive so horizontal swipes don't trigger browser back/forward.
+      event.preventDefault();
+      window.clearTimeout(gestureEndTimer);
+      gestureEndTimer = window.setTimeout(startNewGesture, WHEEL_GESTURE_GAP_MS);
+
+      const delta =
+        event.deltaMode === WheelEvent.DOM_DELTA_LINE
+          ? event.deltaX * WHEEL_LINE_HEIGHT
+          : event.deltaX;
+      const magnitude = Math.abs(delta);
+
+      if (hasSteppedThisGesture) {
+        peakMagnitude = Math.max(peakMagnitude, magnitude);
+        if (magnitude < peakMagnitude * WHEEL_COAST_DECAY_SHARE) isCoasting = true;
+        const isReversed =
+          Math.sign(delta) !== stepDirection && magnitude >= WHEEL_MIN_REVERSE_DELTA;
+        const isRenewed =
+          isCoasting && magnitude > previousMagnitude * WHEEL_RENEW_FACTOR + WHEEL_RENEW_MARGIN;
+        if (
+          (isReversed || isRenewed) &&
+          performance.now() - steppedAt > WHEEL_MIN_STEP_INTERVAL_MS
+        ) {
+          startNewGesture();
+        }
+      }
+      previousMagnitude = magnitude;
+      if (hasSteppedThisGesture) return;
+
+      accumulatedDelta += delta;
+      if (Math.abs(accumulatedDelta) >= WHEEL_STEP_DISTANCE) {
+        stepDirection = Math.sign(accumulatedDelta);
+        stepActive(stepDirection);
+        hasSteppedThisGesture = true;
+        steppedAt = performance.now();
+        peakMagnitude = magnitude;
+        isCoasting = false;
+      }
+    };
+
+    trackWrapper.addEventListener("wheel", handleWheel, { passive: false });
+    return () => {
+      trackWrapper.removeEventListener("wheel", handleWheel);
+      window.clearTimeout(gestureEndTimer);
+    };
+  }, [stepActive]);
 
   const handleCardClick = (index, event) => {
     if (wasDraggedRef.current || index !== activeIndex) event.preventDefault();
@@ -211,7 +288,12 @@ export default function PlayPage() {
         </div>
       </main>
 
-      <SiteFooter resumeHref={resumePdf} isPinned={false} />
+      <SiteFooter
+        resumeHref={resumePdf}
+        isPinned={false}
+        shouldAnimateTree={false}
+        hasFootballer
+      />
     </>
   );
 }

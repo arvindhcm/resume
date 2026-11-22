@@ -175,17 +175,17 @@ export class LeafPile {
     return nearest;
   }
 
-  toss(x, y, strength = 1) {
+  toss(x, y, strength = 1, { radius = TOSS_RADIUS, pushX = 0 } = {}) {
     const random = this.random;
     let tossedCount = 0;
     for (const leaf of this.leaves) {
       if (!leaf.resting) continue;
       const distance = Math.hypot(leaf.x - x, (leaf.y - y) * 1.3);
-      if (distance > TOSS_RADIUS) continue;
-      const closeness = 1 - distance / TOSS_RADIUS;
+      if (distance > radius) continue;
+      const closeness = 1 - distance / radius;
       this.launch(
         leaf,
-        (leaf.x - x) * 2.4 + (random() - 0.5) * 110,
+        (leaf.x - x) * 2.4 + (random() - 0.5) * 110 + pushX,
         -(320 + 520 * closeness * strength + random() * 190),
       );
       tossedCount++;
