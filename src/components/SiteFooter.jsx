@@ -26,14 +26,19 @@ const TREE_SHAKE_DROP = 9;
 const MAX_EXTRA_LEAVES = 90;
 const REVEAL_EASE = [0.22, 1, 0.36, 1];
 const REVEAL_VISIBLE_SHARE = 0.8;
+const PAGE_BACKDROP_CLASS = "fixed inset-0 -z-10 bg-linear-to-b from-surface to-bg";
 
 /*
   The whole footer (tree, leaf pile, copy, links) is pinned to the bottom of
   the viewport behind the page, like a backdrop. An empty in-flow spacer of
   the same height gives the page room to scroll; once most of that spacer is
   on screen the copy fades in and the scene becomes interactive.
+
+  With isPinned={false} the scene sits in normal flow below the page instead,
+  for short pages where a pinned backdrop would show through from the start.
+  The fixed gradient stays either way since it is the page background.
 */
-export default function SiteFooter({ resumeHref }) {
+export default function SiteFooter({ resumeHref, isPinned = true }) {
   const spacerRef = useRef(null);
   const layerRef = useRef(null);
   const sceneRef = useRef(null);
@@ -58,7 +63,9 @@ export default function SiteFooter({ resumeHref }) {
     REVEAL_VISIBLE_SHARE,
     (window.innerHeight * 0.9) / Math.max(1, layerHeight),
   );
-  const isRevealed = useInView(spacerRef, { amount: revealAmount });
+  const isRevealed = useInView(isPinned ? spacerRef : layerRef, {
+    amount: revealAmount,
+  });
 
   useEffect(() => {
     const observer = new ResizeObserver(([entry]) =>
@@ -173,13 +180,22 @@ export default function SiteFooter({ resumeHref }) {
 
   return (
     <footer id="contact">
-      <div ref={spacerRef} aria-hidden="true" style={{ height: layerHeight }} />
+      {isPinned ? (
+        <div ref={spacerRef} aria-hidden="true" style={{ height: layerHeight }} />
+      ) : (
+        <div
+          aria-hidden="true"
+          className={`pointer-events-none ${PAGE_BACKDROP_CLASS}`}
+        />
+      )}
 
-      <div className="pointer-events-none fixed inset-0 -z-10 bg-linear-to-b from-surface to-bg">
+      <div
+        className={`pointer-events-none ${isPinned ? PAGE_BACKDROP_CLASS : "relative"}`}
+      >
         <div
           ref={layerRef}
           aria-hidden={!isRevealed}
-          className="absolute inset-x-0 bottom-0 pb-10"
+          className={`${isPinned ? "absolute inset-x-0 bottom-0" : "relative"} pb-10`}
         >
           <div
             className={`relative mx-auto w-full max-w-[1120px] text-ink ${
