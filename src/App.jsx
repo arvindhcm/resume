@@ -13,6 +13,7 @@ import { BentoGrid, BentoCard } from "@/components/ui/bento-grid";
 import CaseStudyRunbooks from "./work/runbooks/CaseStudyRunbooks.jsx";
 import CaseStudyMonica from "./work/monica/CaseStudyMonica.jsx";
 import AboutPage from "./about/AboutPage.jsx";
+import PlayPage from "./play/PlayPage.jsx";
 import { SECTION_HEADING_CLASS } from "./lib/typography.js";
 import "./App.css";
 import runbookDemo from "./work/runbooks/assets/runbookDemo.mp4";
@@ -54,6 +55,7 @@ export default function App() {
         <CursorTrail />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/play" element={<PlayPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route
             path="/work/unified-runbooks"

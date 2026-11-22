@@ -7,6 +7,7 @@ import resumePdf from "../assets/Arvindhcm_Designer_resume.pdf";
 // EDIT: header nav links. `to` = in-app route, `href` = plain link.
 const NAV_LINKS = [
   { label: "Work", to: { pathname: "/", hash: "#work" }, activePath: "/" },
+  { label: "Play", to: "/play", activePath: "/play" },
   { label: "About", to: "/about", activePath: "/about" },
   // { label: "Contact", href: "#contact" },
   { label: "Resume", href: resumePdf, isExternal: true },
