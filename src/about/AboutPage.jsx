@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import SiteHeader from "../components/SiteHeader.jsx";
 import SiteFooter from "../components/SiteFooter.jsx";
+import CompanyPill from "../components/CompanyPill.jsx";
+import { EXPERIENCE } from "./experience.js";
 import { Highlighter } from "@/components/ui/highlighter";
 import { SECTION_HEADING_CLASS } from "../lib/typography.js";
 import resumePdf from "../assets/Arvindhcm_Designer_resume.pdf";
@@ -42,9 +44,40 @@ export default function AboutPage() {
             </p>
           </div>
         </section>
+
+        <section className="pointer-events-auto mt-24 max-w-[620px] max-[560px]:mt-16">
+          <h2 className={SECTION_HEADING_CLASS}>Experience</h2>
+          <ul className="m-0 mt-5 flex list-none flex-col gap-1 p-0 text-[15.5px] leading-[1.7]">
+            {EXPERIENCE.map((role) => (
+              <li
+                key={role.company}
+                className="flex items-center justify-between gap-6 py-1"
+              >
+                <span className="flex min-w-0 items-center gap-2.5 text-muted">
+                  <CompanyPill
+                    name={role.company}
+                    href={role.href}
+                    logo={role.logo}
+                    className="ml-0"
+                  />
+                  <span className="truncate max-[480px]:hidden">
+                    {role.focus}
+                  </span>
+                </span>
+                <span className="shrink-0 text-sm text-muted tabular-nums">
+                  {role.years}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
       </main>
 
-      <SiteFooter resumeHref={resumePdf} />
+      <SiteFooter
+        resumeHref={resumePdf}
+        isPinned={false}
+        shouldAnimateTree={false}
+      />
     </>
   );
 }

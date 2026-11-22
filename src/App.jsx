@@ -5,37 +5,18 @@ import SiteFooter from "./components/SiteFooter.jsx";
 import PageLoader from "./components/PageLoader.jsx";
 import SiteHeader from "./components/SiteHeader.jsx";
 import CompanyPill from "./components/CompanyPill.jsx";
-import superopsMark from "./assets/superops-mark.svg";
-import zohoMark from "./assets/zoho-mark.svg";
 import resumePdf from "./assets/Arvindhcm_Designer_resume.pdf";
 import { Highlighter } from "@/components/ui/highlighter";
 import { BentoGrid, BentoCard } from "@/components/ui/bento-grid";
 import CaseStudyRunbooks from "./work/runbooks/CaseStudyRunbooks.jsx";
 import CaseStudyMonica from "./work/monica/CaseStudyMonica.jsx";
 import AboutPage from "./about/AboutPage.jsx";
+import { EXPERIENCE } from "./about/experience.js";
 import PlayPage from "./play/PlayPage.jsx";
 import { SECTION_HEADING_CLASS } from "./lib/typography.js";
 import "./App.css";
 import runbookDemo from "./work/runbooks/assets/runbookDemo.mp4";
 import similarTicket from "./work/monica/assets/similarticket.mp4";
-
-// EDIT: roles shown in the Experience list, newest first
-const EXPERIENCE = [
-  {
-    company: "SuperOps",
-    href: "https://superops.com",
-    logo: superopsMark,
-    focus: "AI-native ticketing platform",
-    years: "2023 – Present",
-  },
-  {
-    company: "Zoho",
-    href: "https://www.zoho.com",
-    logo: zohoMark,
-    focus: "ETL workflows & SQL editor",
-    years: "2019 – 2023",
-  },
-];
 
 const [CURRENT_COMPANY, PREVIOUS_COMPANY] = EXPERIENCE;
 
@@ -180,15 +161,16 @@ function Home() {
                   </p>
                 </div>
               </div>
-              <video
-                className="w-1/2 p-8"
-                src={runbookDemo}
-                autoPlay
-                loop
-                muted
-                playsInline
-                // style={{ padding: "30px" }}
-              />
+              <div className="flex w-1/2 items-center justify-center p-8">
+                <video
+                  className="max-h-full max-w-full rounded-sm"
+                  src={runbookDemo}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                />
+              </div>
               {/* <img
               className="work-thumb"
               src={thumbnail}
@@ -222,14 +204,16 @@ function Home() {
                   </p>
                 </div>
               </div>
-              <video
-                className="w-3/5"
-                src={similarTicket}
-                autoPlay
-                loop
-                muted
-                playsInline
-              />
+              <div className="flex w-3/5 items-center justify-center">
+                <video
+                  className="max-h-full max-w-full rounded-sm"
+                  src={similarTicket}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                />
+              </div>
               {/* <img
               className="w-3/5 object-cover"
               // src={monicaHero}
@@ -238,33 +222,6 @@ function Home() {
             /> */}
             </BentoCard>
           </BentoGrid>
-        </section>
-
-        <section className="pointer-events-auto mt-24 max-w-[620px] max-[560px]:mt-16">
-          <h2 className={SECTION_HEADING_CLASS}>Experience</h2>
-          <ul className="m-0 mt-5 flex list-none flex-col gap-1 p-0 text-[15.5px] leading-[1.7]">
-            {EXPERIENCE.map((role) => (
-              <li
-                key={role.company}
-                className="flex items-center justify-between gap-6 py-1"
-              >
-                <span className="flex min-w-0 items-center gap-2.5 text-muted">
-                  <CompanyPill
-                    name={role.company}
-                    href={role.href}
-                    logo={role.logo}
-                    className="ml-0"
-                  />
-                  <span className="truncate max-[480px]:hidden">
-                    {role.focus}
-                  </span>
-                </span>
-                <span className="shrink-0 text-sm text-muted tabular-nums">
-                  {role.years}
-                </span>
-              </li>
-            ))}
-          </ul>
         </section>
       </main>
 
