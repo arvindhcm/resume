@@ -1,21 +1,21 @@
 import { useEffect, useRef } from "react";
 import { PixelFootballer } from "../lib/pixelFootballer.js";
 import { readCssColor } from "../lib/cssTokens.js";
+import footballerSprite from "./assets/footballer.png";
 
 const CANVAS_HEIGHT = 150;
 const currentPixelRatio = () => Math.min(2, window.devicePixelRatio || 1);
 
-const readPalette = () => ({
-  H: readCssColor("--bark-shadow", "#3F3B36"),
-  h: readCssColor("--bark", "#8A7258"),
-  S: readCssColor("--footballer-skin", "#C98E62"),
-  E: readCssColor("--ink", "#0D0D0D"),
-  T: readCssColor("--footballer-shirt", "#2F5FD0"),
-  P: readCssColor("--footballer-shorts", "#FFFFFE"),
-  Q: readCssColor("--footballer-shorts-hem", "#B8BEC9"),
+const readBallPalette = () => ({
   K: readCssColor("--ink", "#0D0D0D"),
   W: readCssColor("--surface", "#FFFFFE"),
 });
+
+const loadImage = (source) => {
+  const image = new Image();
+  image.src = source;
+  return image;
+};
 
 export default function PixelFootballerCanvas({ sceneRef, treeRef, pileRef, isCompact }) {
   const canvasRef = useRef(null);
@@ -25,8 +25,10 @@ export default function PixelFootballerCanvas({ sceneRef, treeRef, pileRef, isCo
     const canvas = canvasRef.current;
     if (!scene || !canvas) return;
     const footballer = new PixelFootballer({
-      palette: readPalette(),
-      pixelSize: isCompact ? 2 : 3,
+      playerImage: loadImage(footballerSprite),
+      palette: readBallPalette(),
+      pixelSize: isCompact ? 1.5 : 2,
+      ballPixelSize: isCompact ? 2 : 2.5,
     });
     let sceneHeight = 0;
     let isVisible = false;

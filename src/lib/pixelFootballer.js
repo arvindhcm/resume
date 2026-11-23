@@ -1,27 +1,12 @@
-const UPPER_BODY = [
-  "...H.H.H...",
-  "..HHhHhHH..",
-  ".HhHHHHhHH.",
-  ".HHhHSSSS..",
-  "..HHSSSES..",
-  "..H.SSSS...",
-  "...TTTTTT..",
-  "..TTTTTTTT.",
-  "..S.TTTT.S.",
-  "....TTTT...",
-];
-
-const SPRITES = {
-  stand: [...UPPER_BODY, "....PPPP...", "....Q..Q...", "....S..S...", "....K..K...", "....KK.KK.."],
-  strideOpen: [...UPPER_BODY, "....PPPP...", "...QQ..QQ..", "..SS....SS.", ".KK......KK", "..........."],
-  stridePass: [...UPPER_BODY, "....PPPP...", "....QQQ....", "...SS.S....", "..KK..S....", "......KK..."],
-  windup: [...UPPER_BODY, "....PPPP...", "...QQ..Q...", "..SS...S...", ".KK....K...", ".......KK.."],
-  kick: [...UPPER_BODY, "....PPPP...", "....Q..QQ..", "....S...SS.", "....S....KK", "....KK....."],
-};
-const RUN_CYCLE = [SPRITES.strideOpen, SPRITES.stridePass];
-const SPRITE_WIDTH = 11;
-const SPRITE_HEIGHT = SPRITES.stand.length;
-const SPRITE_CENTER_COLUMN = 5;
+// Layout of assets/footballer.png: one row of 16x28 frames, feet on the bottom row.
+// The source art has non-square pixels, 41:29.5 wide to tall.
+const FRAME_WIDTH = 16;
+const FRAME_HEIGHT = 28;
+const FRAME_ANCHOR_COLUMN = 7.5;
+const FRAME_FRONT_REACH = 8.5;
+const KICK_TOE_COLUMN = 15;
+const PIXEL_ASPECT = 41 / 29.5;
+const FRAMES = { stand: 0, run: [0, 1, 2, 3], windup: 4, kick: 5 };
 
 const BALL_SIZE = 5;
 const BALL_PATCH_RING = [
@@ -44,11 +29,14 @@ const RUN_FRAME_RATE = 9;
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
 export class PixelFootballer {
-  constructor({ palette, pixelSize, random = Math.random }) {
+  constructor({ playerImage, palette, pixelSize, ballPixelSize, random = Math.random }) {
+    this.playerImage = playerImage;
     this.palette = palette;
-    this.pixelSize = pixelSize;
+    this.pixelWidth = pixelSize * PIXEL_ASPECT;
+    this.pixelHeight = pixelSize;
+    this.ballPixelSize = ballPixelSize;
     this.random = random;
-    this.ballRadius = (BALL_SIZE / 2) * pixelSize;
+    this.ballRadius = (BALL_SIZE / 2) * ballPixelSize;
     this.fieldStart = 0;
     this.fieldEnd = 0;
     this.groundY = 0;
@@ -68,11 +56,11 @@ export class PixelFootballer {
   }
 
   get kickStandoff() {
-    return 5.5 * this.pixelSize;
+    return (KICK_TOE_COLUMN - FRAME_ANCHOR_COLUMN) * this.pixelWidth + this.ballRadius - 1;
   }
 
   resize({ fieldStart, fieldEnd, groundY }) {
-    const spriteReach = SPRITE_CENTER_COLUMN * this.pixelSize + 8;
+    const spriteReach = FRAME_FRONT_REACH * this.pixelWidth + 8;
     this.fieldStart = fieldStart + spriteReach;
     this.fieldEnd = Math.max(this.fieldStart + 120, fieldEnd - spriteReach);
     this.groundY = groundY;
@@ -184,10 +172,13 @@ export class PixelFootballer {
     player.isRunning = true;
     player.strideTime += deltaSeconds;
 
-    const runFrame = Math.floor(player.strideTime * RUN_FRAME_RATE) % RUN_CYCLE.length;
+    const runFrame = Math.floor(player.strideTime * RUN_FRAME_RATE) % FRAMES.run.length;
     if (runFrame !== player.runFrame) {
       player.runFrame = runFrame;
-      pile?.rustle(player.x + player.facing * this.pixelSize * 2, this.groundY - 4, player.facing * 10);
+      const isFootLanding = runFrame % 2 === 1;
+      if (isFootLanding) {
+        pile?.rustle(player.x + player.facing * this.pixelWidth * 2, this.groundY - 4, player.facing * 10);
+      }
     }
   }
 
@@ -208,55 +199,60 @@ export class PixelFootballer {
     ball.velocityY = random() < 0.35 ? -(260 + random() * 260) : -(20 + random() * 60);
   }
 
-  currentSprite() {
+  currentFrame() {
     const { player } = this;
-    if (player.state === "windup") return SPRITES.windup;
-    if (player.state === "strike") return SPRITES.kick;
-    if (player.isRunning) return RUN_CYCLE[player.runFrame];
-    return SPRITES.stand;
+    if (player.state === "windup") return FRAMES.windup;
+    if (player.state === "strike") return FRAMES.kick;
+    if (player.isRunning) return FRAMES.run[player.runFrame];
+    return FRAMES.stand;
   }
 
   snap(value) {
-    return Math.round(value / this.pixelSize) * this.pixelSize;
+    return Math.round(value / this.ballPixelSize) * this.ballPixelSize;
   }
 
   draw(context, pixelRatio, offsetY) {
     context.setTransform(1, 0, 0, 1, 0, 0);
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-    if (!this.hasLayout) return;
+    const isPlayerLoaded = this.playerImage.complete && this.playerImage.naturalWidth > 0;
+    if (!this.hasLayout || !isPlayerLoaded) return;
     context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, pixelRatio * offsetY);
+    context.imageSmoothingEnabled = false;
 
-    const { ball, player, pixelSize, groundY } = this;
-    const ballLeft = this.snap(ball.x) - Math.floor(BALL_SIZE / 2) * pixelSize;
+    const { ball, player, ballPixelSize, pixelWidth, pixelHeight, groundY } = this;
+    const ballLeft = this.snap(ball.x) - Math.floor(BALL_SIZE / 2) * ballPixelSize;
     const ballLift = this.snap(this.floorY - ball.y);
-    const ballTop = groundY - BALL_SIZE * pixelSize - ballLift;
-    const playerLeft = this.snap(player.x) - SPRITE_CENTER_COLUMN * pixelSize;
+    const ballTop = groundY - BALL_SIZE * ballPixelSize - ballLift;
+    const playerX = Math.round(player.x);
 
     context.globalAlpha = 0.12;
     context.fillStyle = this.palette.K;
-    const shadowWidth = this.snap(Math.max(pixelSize * 2, BALL_SIZE * pixelSize * (1 - ballLift / 160)));
-    context.fillRect(this.snap(ball.x) - shadowWidth / 2, groundY - pixelSize / 2, shadowWidth, pixelSize);
-    context.fillRect(playerLeft + 3 * pixelSize, groundY - pixelSize / 2, 6 * pixelSize, pixelSize);
+    const shadowWidth = this.snap(Math.max(ballPixelSize * 2, BALL_SIZE * ballPixelSize * (1 - ballLift / 160)));
+    context.fillRect(this.snap(ball.x) - shadowWidth / 2, groundY - 1, shadowWidth, 2);
+    context.fillRect(playerX - 4 * pixelWidth, groundY - 1, 8 * pixelWidth, 2);
     context.globalAlpha = 1;
 
-    this.drawSprite(context, this.currentSprite(), playerLeft, groundY - SPRITE_HEIGHT * pixelSize, player.facing < 0);
+    context.save();
+    context.translate(playerX, groundY);
+    context.scale(player.facing * pixelWidth, pixelHeight);
+    context.drawImage(
+      this.playerImage,
+      this.currentFrame() * FRAME_WIDTH,
+      0,
+      FRAME_WIDTH,
+      FRAME_HEIGHT,
+      -FRAME_ANCHOR_COLUMN,
+      -FRAME_HEIGHT,
+      FRAME_WIDTH,
+      FRAME_HEIGHT,
+    );
+    context.restore();
+
     this.drawBall(context, ballLeft, ballTop);
   }
 
-  drawSprite(context, rows, left, top, isFlipped) {
-    const size = this.pixelSize;
-    rows.forEach((row, rowIndex) => {
-      for (let column = 0; column < SPRITE_WIDTH; column++) {
-        const key = row[isFlipped ? SPRITE_WIDTH - 1 - column : column];
-        if (key === ".") continue;
-        context.fillStyle = this.palette[key];
-        context.fillRect(left + column * size, top + rowIndex * size, size, size);
-      }
-    });
-  }
-
   drawBall(context, left, top) {
-    const size = this.pixelSize;
+    const size = this.ballPixelSize;
     const ringStep = Math.PI / 4;
     const patchIndex =
       ((Math.floor(this.ball.roll / ringStep) % BALL_PATCH_RING.length) + BALL_PATCH_RING.length) %
