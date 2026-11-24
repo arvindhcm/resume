@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import ImageLightbox from "./ImageLightbox.jsx";
 import profilePic from "./assets/myprofilepic.jpeg";
-import resumePdf from "../assets/Arvindhcm_Designer_resume.pdf";
+import resumePdf from "../assets/Arvindh_CM_Senior_Product_Designer_Resume.pdf";
 
 // EDIT: header nav links. `to` = in-app route, `href` = plain link.
 const NAV_LINKS = [

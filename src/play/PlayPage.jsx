@@ -6,7 +6,7 @@ import PlayCard from "./PlayCard.jsx";
 import CarouselArrowButton from "./CarouselArrowButton.jsx";
 import { SECTION_HEADING_CLASS } from "../lib/typography.js";
 import { useElementWidth } from "../lib/useElementWidth.js";
-import resumePdf from "../assets/Arvindhcm_Designer_resume.pdf";
+import resumePdf from "../assets/Arvindh_CM_Senior_Product_Designer_Resume.pdf";
 import chatAppSnapshot from "./assets/chatApp.gif";
 import chatAppPoster from "./assets/chatAppPoster.jpg";
 import cmEngineSnapshot from "./assets/cmEngine.gif";

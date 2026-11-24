@@ -5,7 +5,7 @@ import SiteFooter from "./components/SiteFooter.jsx";
 import PageLoader from "./components/PageLoader.jsx";
 import SiteHeader from "./components/SiteHeader.jsx";
 import CompanyPill from "./components/CompanyPill.jsx";
-import resumePdf from "./assets/Arvindhcm_Designer_resume.pdf";
+import resumePdf from "./assets/Arvindh_CM_Senior_Product_Designer_Resume.pdf";
 import { Highlighter } from "@/components/ui/highlighter";
 import { BentoGrid, BentoCard } from "@/components/ui/bento-grid";
 import CaseStudyRunbooks from "./work/runbooks/CaseStudyRunbooks.jsx";

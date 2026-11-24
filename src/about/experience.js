@@ -15,6 +15,6 @@ export const EXPERIENCE = [
     href: "https://www.zoho.com",
     logo: zohoMark,
     focus: "ETL workflows & SQL editor",
-    years: "2019 – 2023",
+    years: "2018 – 2023",
   },
 ];

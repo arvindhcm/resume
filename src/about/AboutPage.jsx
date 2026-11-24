@@ -5,7 +5,7 @@ import CompanyPill from "../components/CompanyPill.jsx";
 import { EXPERIENCE } from "./experience.js";
 import { Highlighter } from "@/components/ui/highlighter";
 import { SECTION_HEADING_CLASS } from "../lib/typography.js";
-import resumePdf from "../assets/Arvindhcm_Designer_resume.pdf";
+import resumePdf from "../assets/Arvindh_CM_Senior_Product_Designer_Resume.pdf";
 
 export default function AboutPage() {
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function AboutPage() {
               </Highlighter>
               , learning that good design is really about making hard things
               feel obvious. That systems thinking followed me to SuperOps, where
-              I&rsquo;ve spent the last two years building an{" "}
+              I&rsquo;ve spent the last three years building an{" "}
               <Highlighter action="highlight" color="var(--accent-soft-border)">
                 <span className="text-ink">AI-native ticketing platform</span>
               </Highlighter>{" "}
